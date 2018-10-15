@@ -9,7 +9,7 @@ export default createStackNavigator({
 	'Login': {
 		screen: LoginPage,
 		navigationOptions: {
-			title: 'Bem vindo',
+			title: 'Kevin',
 		}
 	},
 	'Main': {

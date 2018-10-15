@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList, ActivityIndicator } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import SerieCard from "../components/SerieCard";
 import AddSerieCard from "../components/AddSerieCard";
 import { connect } from "react-redux";
@@ -14,9 +14,6 @@ class SeriesPage extends React.Component {
 
     render() {
         const { series, navigation } = this.props; 
-        if (series === null) {
-            return <ActivityIndicator />;
-        }
 
         return (
             <View>
@@ -55,9 +52,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     const { series } = state;
-    if (series === null) {
-        return { series };
-    }
     const keys = Object.keys(series);
     const seriesWithKeys = keys.map(key => {
         return { ...series[key], id: key }

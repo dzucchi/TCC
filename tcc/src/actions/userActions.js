@@ -12,6 +12,24 @@ const userLogout = () => ({
     type: USER_LOGOUT
 });
 
+export const tryLoginWithFacebook = ({ type, token }) => dispatch => {
+    if (type === 'success') {
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+        return firebase
+            .auth()
+            .signInAndRetrieveDataWithCredential(credential)
+            .then(user => {
+                dispatch(userLoginSuccess(user))
+                return user;
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            })
+    }
+
+}
+
 export const tryLogin = ({ email, password }) => dispatch => {
     return firebase
         .auth()

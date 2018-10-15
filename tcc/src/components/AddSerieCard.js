@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
 
-const AddSerieCard = ({ serie, isFirstColumn, onPress }) => (
+const AddSerieCard = ({ isFirstColumn, onPress }) => (
     <TouchableOpacity 
         onPress={onPress}
         style={[

@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, Alert } from "react-native";
 import firebase from "firebase";
 
-import { tryLogin } from "../actions";
+import { tryLogin, tryLoginWithFacebook } from "../actions";
 import { connect } from "react-redux";
 
 import FormRow from '../components/FormRow';
@@ -60,6 +60,21 @@ class LoginPage extends React.Component {
             });
     }
 
+    async logInFacebook() {
+        const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('359751571431590', {
+            permissions: ['public_profile'],
+        });
+        this.props.tryLoginWithFacebook({ type, token })
+            .then((user) => {
+                if (user) {
+                    this.props.navigation.replace('Main');    
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     getMessageByErrorCode(errorCode) {
         switch (errorCode) {
             case 'auth/wrong-password':
@@ -94,6 +109,15 @@ class LoginPage extends React.Component {
         );
     }
 
+    renderButtonFacebook() {
+        return (
+            <Button 
+                title='Logar com Facebook'
+                color='#3b5998'
+                onPress={() => this.logInFacebook()}/>
+        );
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -117,6 +141,15 @@ class LoginPage extends React.Component {
 
                 { this.renderButton() }
                 { this.renderMessage() }
+
+                <View style={styles.label}>
+                    <Text>
+                        Ou conecte-se com sua rede social
+                    </Text>
+                </View>
+                
+                { this.renderButtonFacebook() }
+
             </View>
         )
     }
@@ -132,11 +165,18 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         paddingRight: 5,
         paddingBottom: 5,
-    }
+    },
+    label: {
+        paddingTop: 20,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 const mapDispatchToProps = {
-    tryLogin
+    tryLogin,
+    tryLoginWithFacebook,
 }
 
 export default connect(null, mapDispatchToProps)(LoginPage)
