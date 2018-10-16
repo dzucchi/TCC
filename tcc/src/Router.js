@@ -1,9 +1,55 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from "react-navigation";
+
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+
+import Icon from "react-native-vector-icons/Ionicons";
 
 import LoginPage from './pages/LoginPage'
-import SeriesPage from './pages/SeriesPage'
-import SerieDetailPage from './pages/SerieDetailPage'
-import SerieFormPage from './pages/SerieFormPage'
+
+import FutebolPerfil from './pages/perfil/FutebolPerfil'
+import BasquetePerfil from './pages/perfil/BasquetePerfil'
+import VoleiPerfil from './pages/perfil/VoleiPerfil'
+
+import JogosJogo from './pages/jogo/JogosJogo'
+import FinanceiroJogo from './pages/jogo/FinanceiroJogo'
+import HistoricoJogo from './pages/jogo/HistoricoJogo'
+
+import MapaPesquisa from './pages/pesquisa/MapaPesquisa'
+import BuscarPesquisa from './pages/pesquisa/BuscarPesquisa'
+
+const PerfilMatTab = createMaterialTopTabNavigator({
+	Futebol: FutebolPerfil,
+	Basquete: BasquetePerfil,
+	Volei: VoleiPerfil
+});
+
+const JogoMatTab = createMaterialTopTabNavigator({
+	Jogos: JogosJogo,
+	Financeiro: FinanceiroJogo,
+	Historico: HistoricoJogo
+});
+
+const PesquisaMatTab = createMaterialTopTabNavigator({
+	Mapa: MapaPesquisa,
+	Buscar: BuscarPesquisa,
+});
+
+const TabNav = createMaterialBottomTabNavigator({
+	Perfil: {
+		screen: PerfilMatTab,
+		navigationOptions: {
+			tabBarLabel: ({ tintColor }) => (
+				<Icon name='ios-home' color={tintColor} size={24}/>
+			)
+		}
+	},
+	Jogo: JogoMatTab,
+	Pesquisar: PesquisaMatTab,
+},{
+	tabBarOptions: {
+		showIcon: true
+	}
+});
 
 export default createStackNavigator({
 	'Login': {
@@ -12,31 +58,7 @@ export default createStackNavigator({
 			title: 'Kevin',
 		}
 	},
-	'Main': {
-		screen: SeriesPage
-	},
-	'SerieForm': {
-		screen: SerieFormPage,
-		navigationOptions: ({ navigation }) => {
-			if (navigation.state.params && navigation.state.params.serieToEdit) {
-				return {
-					title: navigation.state.params.serieToEdit.title,
-				}
-			}
-			return {
-				title: 'Nova série',
-			};
-		}
-	},
-	'SerieDetail': {
-		screen: SerieDetailPage,
-		navigationOptions: ({ navigation }) => {
-			const { serie } = navigation.state.params;
-			return {
-				title: serie.title,
-			}
-		}
-	},
+	'Main' : TabNav
 }, {
 	navigationOptions: {
 		title: 'Séries!',
@@ -50,5 +72,5 @@ export default createStackNavigator({
 			color: 'white',
 			fontSize: 30,
 		}
-	}	
+	}
 });
