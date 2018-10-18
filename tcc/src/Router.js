@@ -1,8 +1,10 @@
-import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from "react-navigation";
+import React from "react";
+
+import { createStackNavigator, createMaterialTopTabNavigator } from "react-navigation";
 
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import LoginPage from './pages/LoginPage'
 
@@ -38,17 +40,33 @@ const TabNav = createMaterialBottomTabNavigator({
 	Perfil: {
 		screen: PerfilMatTab,
 		navigationOptions: {
-			tabBarLabel: ({ tintColor }) => (
-				<Icon name='ios-home' color={tintColor} size={24}/>
+			tabBarIcon: ({ tintColor }) => (
+				<Icon name='account-circle' color={tintColor} size={26} />
 			)
 		}
 	},
-	Jogo: JogoMatTab,
-	Pesquisar: PesquisaMatTab,
+	Jogo: {
+		screen: JogoMatTab,
+		navigationOptions: {
+			tabBarIcon: ({ tintColor }) => (
+				<Icon name='soccer-field' color={tintColor} size={26} />
+			)
+		}
+	},
+	Pesquisar: {
+		screen: PesquisaMatTab,	
+		navigationOptions: {
+			tabBarIcon: ({ tintColor }) => (
+				<Icon name='google-maps' color={tintColor} size={26} />
+			),
+		}
+	},
 },{
-	tabBarOptions: {
-		showIcon: true
-	}
+	shifting: true,
+    barStyle: {
+	  height: 55,
+	  backgroundColor: '#3868f7',
+    }
 });
 
 export default createStackNavigator({
@@ -58,13 +76,13 @@ export default createStackNavigator({
 			title: 'Kevin',
 		}
 	},
-	'Main' : TabNav
+	'Main' : TabNav,
 }, {
 	navigationOptions: {
 		title: 'Séries!',
 		headerTintColor: 'white',
 		headerStyle: {
-			backgroundColor: '#6ca2f7',
+			backgroundColor: '#3868f7',
 			borderBottomWidth: 1,
 			borderBottomColor: '#C5C5C5'
 		},
