@@ -8,7 +8,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import LoginPage from './pages/LoginPage'
 
-import FutebolPerfil from './pages/perfil/FutebolPerfil'
+import FutebolPerfilDetail from './pages/perfil/FutebolPerfilDetail'
+import FutebolPerfilForm from './pages/perfil/FutebolPerfilForm'
 import BasquetePerfil from './pages/perfil/BasquetePerfil'
 import VoleiPerfil from './pages/perfil/VoleiPerfil'
 
@@ -20,7 +21,7 @@ import MapaPesquisa from './pages/pesquisa/MapaPesquisa'
 import BuscarPesquisa from './pages/pesquisa/BuscarPesquisa'
 
 const PerfilMatTab = createMaterialTopTabNavigator({
-	Futebol: FutebolPerfil,
+	Futebol: FutebolPerfilDetail,
 	Basquete: BasquetePerfil,
 	Volei: VoleiPerfil
 });
@@ -77,6 +78,7 @@ export default createStackNavigator({
 		}
 	},
 	'Main' : TabNav,
+	'FutebolPerfilForm' : FutebolPerfilForm,
 }, {
 	navigationOptions: {
 		title: 'Séries!',

@@ -21,12 +21,12 @@ class LoginPage extends React.Component {
 
     componentDidMount() {
         const config = {
-            apiKey: "AIzaSyBmB32LbmdlCLI_E8OqiDMp46KP5a88JWg",
-            authDomain: "series-5c4cc.firebaseapp.com",
-            databaseURL: "https://series-5c4cc.firebaseio.com",
-            projectId: "series-5c4cc",
-            storageBucket: "series-5c4cc.appspot.com",
-            messagingSenderId: "363908263998"
+            apiKey: "AIzaSyBDKYo0euOjNV3KwuuVD__FJpntVkWQkfE",
+            authDomain: "furb-tcc.firebaseapp.com",
+            databaseURL: "https://furb-tcc.firebaseio.com",
+            projectId: "furb-tcc",
+            storageBucket: "furb-tcc.appspot.com",
+            messagingSenderId: "112702997561"
         };
         firebase.initializeApp(config);
     }
@@ -103,9 +103,18 @@ class LoginPage extends React.Component {
         if (this.state.isLoading)
             return <ActivityIndicator />;
         return (
-            <Button
-                title='Entrar' 
-                onPress={() => this.tryLogin()} />
+            <View>
+                <View>
+                    <Button
+                        title='Entrar' 
+                        onPress={() => this.tryLogin()} />
+                </View>
+                <View style = {styles.margin20Top}>
+                    <Button
+                        title='Criar conta'
+                        onPress={() => this.tryLogin()} />
+                </View>
+            </View>
         );
     }
 
@@ -172,6 +181,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    margin20Top: {
+        marginTop: 10,
+    }
 });
 
 const mapDispatchToProps = {
