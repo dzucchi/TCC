@@ -9,6 +9,16 @@ export const setField = (field, value) => {
     }
 }
 
+export const SET_FIELD_SEGUNDO_NIVEL = 'SET_FIELD_SEGUNDO_NIVEL';
+export const setFieldSegundoNivel = (field, field2, value) => {
+    return {
+        type: SET_FIELD_SEGUNDO_NIVEL,
+        field,
+        field2,
+        value,
+    }
+}
+
 export const SET_JOGADOR = 'SET_JOGADOR';
 export const setJogador = jogador => ({
     type: SET_JOGADOR,

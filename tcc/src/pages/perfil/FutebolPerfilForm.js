@@ -46,7 +46,7 @@ class FutebolPerfilForm extends React.Component {
     }
 
     render() {
-        const { jogadorForm, setField } = this.props;
+        const { jogadorForm, setField, setFieldSegundoNivel } = this.props;
 
         return (
             <KeyboardAvoidingView 
@@ -73,10 +73,25 @@ class FutebolPerfilForm extends React.Component {
                     <FormRow>
                         <Picker
                             selectedValue={jogadorForm.futebol.direcao_chute}
-                            onValueChange={itemValue => setField('futebol.direcao_chute', itemValue)}>
+                            onValueChange={itemValue => setFieldSegundoNivel('futebol', 'direcao_chute', itemValue)}>
                             <Picker.Item label="Ambidestro" value="Ambidestro" />
                             <Picker.Item label="Destro" value="Destro" />
                             <Picker.Item label="Canhoto" value="Canhoto" />
+                        </Picker>
+                    </FormRow>
+                    <FormRow>
+                        <Picker
+                            selectedValue={jogadorForm.futebol.posicao}
+                            onValueChange={itemValue => setFieldSegundoNivel('futebol', 'posicao', itemValue)}>
+                            <Picker.Item label="Goleiro" value="Goleiro" />
+                            <Picker.Item label="Zagueiro" value="Zagueiro" />
+                            <Picker.Item label="Lateral" value="Lateral" />
+                            <Picker.Item label="Volante" value="Volante" />
+                            <Picker.Item label="Meia" value="Meia" />
+                            <Picker.Item label="Atacante" value="Atacante" />
+                            <Picker.Item label="Ala" value="Ala" />
+                            <Picker.Item label="Pivô" value="Pivô" />
+                            <Picker.Item label="Fixo" value="Fixo" />
                         </Picker>
                     </FormRow>
                     { this.renderButton() }
@@ -102,6 +117,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     setField,
+    setFieldSegundoNivel,
     alterarJogador,
 }
 
