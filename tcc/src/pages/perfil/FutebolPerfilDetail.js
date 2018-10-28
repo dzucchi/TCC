@@ -1,24 +1,52 @@
 import React from "react";
-import { ScrollView, StyleSheet, View, Text, Button } from "react-native";
+import { ScrollView, StyleSheet, View, Text, Button, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
-import { watchJogador } from "../../actions";
+import { watchJogador, watchGrupos, setField } from "../../actions";
 
-import Line from "../../components/Line";
+import { AgeFromDateString } from "age-calculator";
 
-class FutebolPerfil extends React.Component {
+class FutebolPerfilDetail extends React.Component {
     componentDidMount() {
         this.props.watchJogador();
+        this.props.watchGrupos();
+    }
+
+    formatarData(data) {
+        const parts = data.split('/');
+        const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+        const idade = new AgeFromDateString(mydate).age;
+        return idade;
+    }
+
+    getName() {
+        const { user } = this.props.user;
+        const { setField } = this.props;
+        if (user.email === null) {
+            setField('nome', user.displayName);
+            return user.displayName;
+        }
+        setField('nome', user.email);
+        return user.email;
     }
 
     render() {
         const { jogador, navigation } = this.props;
 
-        return (
-            <ScrollView>
+        if (jogador === null) {
+            return <ActivityIndicator />;
+        }
 
+        return (
+            
+            <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.nome}>{jogador.nome}</Text>
-                    <Text style={styles.idade}>{jogador.idade} anos</Text>
+                    <Text style={styles.nome}>
+                        {jogador.nome === '' ? this.getName() : jogador.nome}
+                    </Text>
+                    <Text style={styles.idade}>
+                        {jogador.idade === '' ? '' : this.formatarData(jogador.idade) + ' anos'}
+                    </Text>
+                    
                     <View style={styles.contentbaixo}>
                         <View  style={styles.endereco}>
                             <Text>{jogador.estado}</Text>
@@ -29,18 +57,19 @@ class FutebolPerfil extends React.Component {
                             <Text>{jogador.futebol.direcao_chute}</Text>
                         </View>
                     </View>
-                </View>
 
+                    
+                </View>
+                
                 <View style={styles.button}>
                     <Button 
                         title="Editar" 
-                        onPress={() => {
-                            navigation.replace('FutebolPerfilForm');
-                        }} />
+                        onPress={() => navigation.navigate('FutebolPerfilForm')} />
                 </View>
 
-                <View style={{height: 30, backgroundColor: 'steelblue'}} />
-
+                <View style={styles.barraGrupos}>
+                    <Text style={styles.labelGrupos}> Grupos </Text>
+                </View>
 
             </ScrollView>
         );
@@ -49,7 +78,8 @@ class FutebolPerfil extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        margin: 10
+        margin: 10,
+        marginBottom: 25,
     },
     container: {
         marginTop: 20,
@@ -61,25 +91,33 @@ const styles = StyleSheet.create({
     idade: {
         marginTop: 10,
     },
-    endereco: {
-        
-    },
     contentbaixo: {
         marginTop: 20,
         marginRight: 10,
         justifyContent: 'space-between',
         flexDirection: 'row',
+    },
+    barraGrupos: { 
+        backgroundColor: '#006dcc', 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    labelGrupos: {
+        color: 'white',
     }
 });
 
 const mapDispatchToProps = {
-    watchJogador
+    watchJogador,
+    watchGrupos,
+    setField
 }
 
 const mapStateToProps = state => {
     return {
-        jogador: state.jogador
+        jogador: state.jogador,
+        user: state.user
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FutebolPerfil);
+export default connect(mapStateToProps, mapDispatchToProps)(FutebolPerfilDetail);

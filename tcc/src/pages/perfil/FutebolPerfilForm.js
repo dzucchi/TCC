@@ -1,18 +1,24 @@
 import React from "react";
-import { StyleSheet, 
+import { 
+    StyleSheet, 
+    Text,
     TextInput, 
     Picker,
     Button, 
     ScrollView, 
-    KeyboardAvoidingView,
+    TouchableOpacity,
     ActivityIndicator,
     Alert
 } from "react-native";
 
 import { connect } from "react-redux";
 
+import DateTimePicker from "react-native-modal-datetime-picker";
+
 import FormRow from "../../components/FormRow";
-import { setField, alterarJogador } from "../../actions";
+import { setField, setFieldSegundoNivel, alterarJogador } from "../../actions";
+
+import moment from 'moment';
 
 class FutebolPerfilForm extends React.Component {
     constructor(props) {
@@ -20,6 +26,8 @@ class FutebolPerfilForm extends React.Component {
 
         this.state = {
             isLoading: false,
+            isVisible: false,
+            chosenDate: '',
         }
     }
 
@@ -45,58 +53,100 @@ class FutebolPerfilForm extends React.Component {
             );
     }
 
+    handlePicker = (date) => {
+        this.props.jogadorForm.idade = moment(date).format('DD/MM/YYYY')
+        this.setState({
+            isVisible: false,
+        })
+    }
+
+    showPicker = () => {
+        this.setState({
+            isVisible: true
+        })
+    }
+
+    hidePicker = () => {
+        this.setState({
+            isVisible: false
+        })
+    }
+
     render() {
         const { jogadorForm, setField, setFieldSegundoNivel } = this.props;
 
         return (
-            <KeyboardAvoidingView 
-                behavior='padding' 
-                enabled
-                keyboardVerticalOffset={150}>
-                <ScrollView>
-                    <FormRow first>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Nome"
-                            value={jogadorForm.nome}
-                            onChangeText={value => setField('nome', value)}
-                        />
-                    </FormRow> 
-                    <FormRow>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Idade"
-                            value={jogadorForm.idade}
-                            onChangeText={value => setField('idade', value)}
-                        />
-                    </FormRow>
-                    <FormRow>
-                        <Picker
-                            selectedValue={jogadorForm.futebol.direcao_chute}
-                            onValueChange={itemValue => setFieldSegundoNivel('futebol', 'direcao_chute', itemValue)}>
-                            <Picker.Item label="Ambidestro" value="Ambidestro" />
-                            <Picker.Item label="Destro" value="Destro" />
-                            <Picker.Item label="Canhoto" value="Canhoto" />
-                        </Picker>
-                    </FormRow>
-                    <FormRow>
-                        <Picker
-                            selectedValue={jogadorForm.futebol.posicao}
-                            onValueChange={itemValue => setFieldSegundoNivel('futebol', 'posicao', itemValue)}>
-                            <Picker.Item label="Goleiro" value="Goleiro" />
-                            <Picker.Item label="Zagueiro" value="Zagueiro" />
-                            <Picker.Item label="Lateral" value="Lateral" />
-                            <Picker.Item label="Volante" value="Volante" />
-                            <Picker.Item label="Meia" value="Meia" />
-                            <Picker.Item label="Atacante" value="Atacante" />
-                            <Picker.Item label="Ala" value="Ala" />
-                            <Picker.Item label="Pivô" value="Pivô" />
-                            <Picker.Item label="Fixo" value="Fixo" />
-                        </Picker>
-                    </FormRow>
-                    { this.renderButton() }
-                </ScrollView>
-            </KeyboardAvoidingView>
+            <ScrollView>
+                <FormRow first>
+                    <Text style={styles.labelfixed}>Nome</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={jogadorForm.nome}
+                        onChangeText={value => setField('nome', value)}
+                    />
+                </FormRow> 
+                <FormRow>
+                    <TouchableOpacity onPress={this.showPicker}>
+                        <Text style={styles.labelfixed}>Data de nascimento</Text>
+                        <Text>
+                            
+                            {jogadorForm.idade}
+                        </Text>
+                    </TouchableOpacity>
+
+                    <DateTimePicker
+                        isVisible={this.state.isVisible}
+                        onConfirm={this.handlePicker}
+                        onCancel={this.hidePicker}
+                        mode={'date'}
+                    />
+                </FormRow>
+                <FormRow first>
+                    <Text style={styles.labelfixed}>Estado</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={jogadorForm.estado}
+                        onChangeText={value => setField('estado', value)}
+                    />
+                </FormRow>
+                <FormRow first>
+                    <Text style={styles.labelfixed}>Cidade</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={jogadorForm.cidade}
+                        onChangeText={value => setField('cidade', value)}
+                    />
+                </FormRow>
+                <FormRow>
+                <Text style={styles.labelfixed}>Direção chute</Text>
+                    <Picker
+                        selectedValue={jogadorForm.futebol.direcao_chute}
+                        onValueChange={itemValue => setFieldSegundoNivel('futebol', 'direcao_chute', itemValue)}>
+                        <Picker.Item label="Ambidestro" value="Ambidestro" />
+                        <Picker.Item label="Destro" value="Destro" />
+                        <Picker.Item label="Canhoto" value="Canhoto" />
+                    </Picker>
+                </FormRow>
+                <FormRow>
+                <Text style={styles.labelfixed}>Posição</Text>
+                    {console.log('@@@@', jogadorForm)}
+                    <Picker
+                        selectedValue={jogadorForm.futebol.posicao}
+                        onValueChange={itemValue => setFieldSegundoNivel('futebol', 'posicao', itemValue)}>
+                        <Picker.Item label="Goleiro" value="Goleiro" />
+                        <Picker.Item label="Zagueiro" value="Zagueiro" />
+                        <Picker.Item label="Lateral" value="Lateral" />
+                        <Picker.Item label="Volante" value="Volante" />
+                        <Picker.Item label="Meia" value="Meia" />
+                        <Picker.Item label="Atacante" value="Atacante" />
+                        <Picker.Item label="Ala" value="Ala" />
+                        <Picker.Item label="Pivô" value="Pivô" />
+                        <Picker.Item label="Fixo" value="Fixo" />
+                    </Picker>
+                </FormRow>
+                { this.renderButton() }
+            </ScrollView>
+
         );
     }
 }
@@ -107,6 +157,9 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         paddingBottom: 5,
     },
+    labelfixed: {
+        color: '#778899',
+    }
 });
 
 function mapStateToProps(state) {

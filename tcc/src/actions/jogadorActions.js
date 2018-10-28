@@ -61,7 +61,7 @@ export const watchJogador = () => {
                     const action = setJogador(jogador[keys[0]]);
                     dispatch(action);
                 } else {
-                    const id = inserirJogador(getState().jogador);
+                    const id = inserirJogador(INITIAL_STATE);
                     const action = setJogador({...INITIAL_STATE, id});
                     dispatch(action);
                 }
@@ -70,13 +70,13 @@ export const watchJogador = () => {
 }
 
 export const INITIAL_STATE = {
-    nome: 'nome',
-    idade: 'idade',
+    nome: '',
+    idade: '',
     comprometimento: 100,
-    estado: 'estado',
-    cidade: 'cidade',
+    estado: '',
+    cidade: '',
     futebol: {
-        direcao_chute: 'Destro',
-        posicao: 'atacante'
+        direcao_chute: 'Ambidestro',
+        posicao: 'Goleiro'
     }
 }

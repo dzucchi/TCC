@@ -78,13 +78,18 @@ export default createStackNavigator({
 		}
 	},
 	'Main' : TabNav,
-	'FutebolPerfilForm' : FutebolPerfilForm,
+	'FutebolPerfilForm' : {
+		screen: FutebolPerfilForm,
+		navigationOptions: {
+			title: 'Perfil',
+		}
+	},
 }, {
 	navigationOptions: {
 		title: 'Séries!',
 		headerTintColor: 'white',
 		headerStyle: {
-			backgroundColor: '#3868f7',
+			backgroundColor: '#006dcc',
 			borderBottomWidth: 1,
 			borderBottomColor: '#C5C5C5'
 		},
