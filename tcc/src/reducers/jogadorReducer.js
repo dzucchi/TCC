@@ -1,6 +1,6 @@
 import { SET_FIELD, SET_FIELD_SEGUNDO_NIVEL, SET_JOGADOR } from "../actions";
 
-export default function (state = null, action) {
+export default function(state = null, action) {
     switch (action.type) {
         case SET_FIELD:
             const newState = { ...state }; // Object.assign({}, state)

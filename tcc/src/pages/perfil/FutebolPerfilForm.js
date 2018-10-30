@@ -129,7 +129,6 @@ class FutebolPerfilForm extends React.Component {
                 </FormRow>
                 <FormRow>
                 <Text style={styles.labelfixed}>Posição</Text>
-                    {console.log('@@@@', jogadorForm)}
                     <Picker
                         selectedValue={jogadorForm.futebol.posicao}
                         onValueChange={itemValue => setFieldSegundoNivel('futebol', 'posicao', itemValue)}>
@@ -146,7 +145,6 @@ class FutebolPerfilForm extends React.Component {
                 </FormRow>
                 { this.renderButton() }
             </ScrollView>
-
         );
     }
 }

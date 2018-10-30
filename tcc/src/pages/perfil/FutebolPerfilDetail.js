@@ -1,14 +1,20 @@
 import React from "react";
-import { ScrollView, StyleSheet, View, Text, Button, ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet, View, Text, Button, ActivityIndicator, FlatList } from "react-native";
 import { connect } from "react-redux";
 import { watchJogador, watchGrupos, setField } from "../../actions";
 
 import { AgeFromDateString } from "age-calculator";
 
+import AddGrupoItem from "../../components/AddGrupoItem";
+import GrupoItem from "../../components/GrupoItem";
+
+const isEven = number => number % 2 === 0;
+
 class FutebolPerfilDetail extends React.Component {
     componentDidMount() {
-        this.props.watchJogador();
-        this.props.watchGrupos();
+        this.props.watchJogador().then(() => {
+            this.props.watchGrupos();
+        });
     }
 
     formatarData(data) {
@@ -30,7 +36,7 @@ class FutebolPerfilDetail extends React.Component {
     }
 
     render() {
-        const { jogador, navigation } = this.props;
+        const { jogador, grupos, navigation } = this.props;
 
         if (jogador === null) {
             return <ActivityIndicator />;
@@ -57,8 +63,6 @@ class FutebolPerfilDetail extends React.Component {
                             <Text>{jogador.futebol.direcao_chute}</Text>
                         </View>
                     </View>
-
-                    
                 </View>
                 
                 <View style={styles.button}>
@@ -69,6 +73,27 @@ class FutebolPerfilDetail extends React.Component {
 
                 <View style={styles.barraGrupos}>
                     <Text style={styles.labelGrupos}> Grupos </Text>
+                </View>
+                
+                <View>
+                    {console.log('@@@: ',...grupos)}
+                    <FlatList
+                        data={[...grupos, { isLast: true }]}
+                        renderItem={({ item, index }) => (
+                            item.isLast
+                                ? <AddGrupoItem
+                                    isFirstColumn={isEven(index)} 
+                                />
+                                : <GrupoItem
+                                    serie={item}
+                                    isFirstColumn={isEven(index)}
+                                    
+                                />
+                        )}
+                        keyExtractor={item => item.id}
+                        ListHeaderComponent={props => (<View style={styles.marginTop} />)}
+                        ListFooterComponent={props => (<View style={styles.marginBottom} />)}
+                    />
                 </View>
 
             </ScrollView>
@@ -104,7 +129,13 @@ const styles = StyleSheet.create({
     },
     labelGrupos: {
         color: 'white',
-    }
+    },
+    marginTop: {
+        marginTop: 5,
+    },
+    marginBottom: {
+        marginBottom: 5,
+    },
 });
 
 const mapDispatchToProps = {
@@ -116,7 +147,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         jogador: state.jogador,
-        user: state.user
+        user: state.user,
+        grupos: state.grupos,
     }
 }
 

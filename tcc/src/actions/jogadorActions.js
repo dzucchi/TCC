@@ -50,22 +50,27 @@ export const alterarJogador = jogador => {
 
 export const watchJogador = () => {
     const { currentUser } = firebase.auth();
-    return (dispatch, getState) => {
-        firebase
-            .database()
-            .ref(`/jogadores/${currentUser.uid}`)
-            .on('value', snapshot => {
-                const jogador = snapshot.val();
-                if (jogador) {
-                    const keys = Object.keys(jogador);
-                    const action = setJogador(jogador[keys[0]]);
-                    dispatch(action);
-                } else {
-                    const id = inserirJogador(INITIAL_STATE);
-                    const action = setJogador({...INITIAL_STATE, id});
-                    dispatch(action);
-                }
-            });
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            firebase
+                .database()
+                .ref(`/jogadores/${currentUser.uid}`)
+                .on('value', snapshot => {
+                    const jogador = snapshot.val();
+                    if (jogador) {
+                        const keys = Object.keys(jogador);
+                        const action = setJogador(jogador[keys[0]]);
+                        dispatch(action);
+                        resolve();
+                    } else {
+                        const id = inserirJogador(INITIAL_STATE);
+                        const action = setJogador({...INITIAL_STATE, id});
+                        dispatch(action);
+                        resolve();
+                    }
+                    reject();
+                });
+        })
     }
 }
 

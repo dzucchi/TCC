@@ -13,10 +13,10 @@ const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(reduxThunk)
 ));
 
-const SeriesApp = prop => (
+const KelvinApp = prop => (
     <Provider store={store}>
         <Router />
     </Provider>    
 );
 
-export default SeriesApp;
+export default KelvinApp;

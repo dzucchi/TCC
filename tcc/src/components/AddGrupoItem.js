@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
 
-const AddSerieCard = ({ isFirstColumn, onPress }) => (
+const AddGrupoItem = ({ isFirstColumn, onPress }) => (
     <TouchableOpacity 
         onPress={onPress}
         style={[
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddSerieCard;
+export default AddGrupoItem;
