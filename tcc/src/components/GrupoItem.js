@@ -1,56 +1,34 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const GrupoItem = ({ grupo, isFirstColumn, onPress }) => (
+const GrupoItem = ({ grupo, onPress }) => (
     <TouchableOpacity
-        onPress={onPress} >
-        <View>
-                <Text>
-                    DIOGOGOGOG
-                </Text>
-            
+        onPress={onPress} 
+    >
+        <View style={[styles.line, styles.container]}>
+            <Text style={styles.texto}>
+                { grupo.nome }
+            </Text>
         </View>
     </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
     container: {
-        padding: 5,
-    },
-    card: {
-        flex: 1,
-        borderWidth: 1,
-        // Solução 2
-        // margin: 10,
-    },
-    cardTitleWrapper: {
-        backgroundColor: 'black',
-        height: 50,
+        padding: 10,
+        backgroundColor: 'white',
+        marginTop: 5,
+        marginBottom: 5,
+        elevation: 1,
 
-        position: 'absolute',
-        bottom: 0,
-        opacity: .8,
-
-        width: '100%',
-
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 3,
-        paddingRight: 3,
-
-        alignItems: 'center',
+        flexDirection: 'row',
+        paddingTop: 3,
+        paddingBottom: 3,
     },
-    cardTitle: {
-        color: 'white',
-        fontSize: 15,
-        fontWeight: 'bold',
+   texto: {
+        fontSize: 18,
+        paddingLeft: 5,
     },
-    firstColumn: {
-        paddingLeft: 10,
-    },
-    lastColumn: {
-        paddingRight: 10,
-    }
 });
 
 export default GrupoItem;

@@ -7,6 +7,7 @@ import { AgeFromDateString } from "age-calculator";
 
 import AddGrupoItem from "../../components/AddGrupoItem";
 import GrupoItem from "../../components/GrupoItem";
+import { gray } from "ansi-colors";
 
 const isEven = number => number % 2 === 0;
 
@@ -35,6 +36,26 @@ class FutebolPerfilDetail extends React.Component {
         return user.email;
     }
 
+    listarGrupos(grupos, navigation) {
+        return (
+            <View>
+                <FlatList
+                    data={[...grupos, { isLast: true }]}
+                    renderItem={({ item }) => (
+                        item.isLast 
+                            ? <AddGrupoItem />
+                            : <GrupoItem
+                                grupo={item} 
+                                onPress={() => navigation.navigate('JogoMatTab', { grupo: item })} />
+                    )}
+                    keyExtractor={(item, id) => id.toString()}
+                    ListHeaderComponent={props => (<View style={styles.marginTop} />)}
+                    ListFooterComponent={props => (<View style={styles.marginBottom} />)}
+                />
+            </View>
+        );
+    }
+
     render() {
         const { jogador, grupos, navigation } = this.props;
 
@@ -43,7 +64,6 @@ class FutebolPerfilDetail extends React.Component {
         }
 
         return (
-            
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={styles.nome}>
@@ -71,30 +91,13 @@ class FutebolPerfilDetail extends React.Component {
                         onPress={() => navigation.navigate('FutebolPerfilForm')} />
                 </View>
 
-                <View style={styles.barraGrupos}>
-                    <Text style={styles.labelGrupos}> Grupos </Text>
+                <View style={styles.labelGrupos}>
+                    <Text>
+                        Grupos 
+                    </Text>
+                    <View style={{backgroundColor: 'gray', flex: 1, height: 1, marginLeft: 10}} />
                 </View>
-                
-                <View>
-                    {console.log('@@@: ',...grupos)}
-                    <FlatList
-                        data={[...grupos, { isLast: true }]}
-                        renderItem={({ item, index }) => (
-                            item.isLast
-                                ? <AddGrupoItem
-                                    isFirstColumn={isEven(index)} 
-                                />
-                                : <GrupoItem
-                                    serie={item}
-                                    isFirstColumn={isEven(index)}
-                                    
-                                />
-                        )}
-                        keyExtractor={item => item.id}
-                        ListHeaderComponent={props => (<View style={styles.marginTop} />)}
-                        ListFooterComponent={props => (<View style={styles.marginBottom} />)}
-                    />
-                </View>
+                {this.listarGrupos(grupos, navigation)}
 
             </ScrollView>
         );
@@ -102,6 +105,12 @@ class FutebolPerfilDetail extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    labelGrupos: {
+        paddingLeft: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     button: {
         margin: 10,
         marginBottom: 25,
@@ -126,9 +135,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#006dcc', 
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    labelGrupos: {
-        color: 'white',
     },
     marginTop: {
         marginTop: 5,

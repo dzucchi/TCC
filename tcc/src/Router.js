@@ -1,6 +1,10 @@
 import React from "react";
 
-import { createStackNavigator, createMaterialTopTabNavigator } from "react-navigation";
+import { 
+	createStackNavigator, 
+	createMaterialTopTabNavigator,
+	getActiveChildNavigationOptions
+} from "react-navigation";
 
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
@@ -69,6 +73,13 @@ const TabNav = createMaterialBottomTabNavigator({
 	  backgroundColor: '#3868f7',
     }
 });
+
+TabNav.navigationOptions = ({ navigation, screenProps }) => {
+	const childOptions = getActiveChildNavigationOptions(navigation, screenProps);
+	return {
+		title: childOptions.title,
+	};
+};
 
 export default createStackNavigator({
 	'Login': {
