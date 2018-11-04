@@ -42,7 +42,8 @@ class PerfilFutebol extends React.Component {
                     data={[...grupos, { isLast: true }]}
                     renderItem={({ item }) => (
                         item.isLast 
-                            ? <AddGrupoItem />
+                            ? <AddGrupoItem 
+                                onPress={() => navigation.navigate('GrupoForm')} />
                             : <GrupoItem
                                 grupo={item}
                                 onPress={() => navigation.navigate('Jogo', { grupo: item })} />

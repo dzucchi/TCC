@@ -1,7 +1,5 @@
 import React from 'react';
-import { ScrollView, StatusBar, Button, Text } from 'react-native';
 import {
-  SafeAreaView,
   createStackNavigator,
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
@@ -18,8 +16,11 @@ import PerfilFutebol from "./pages/perfil/PerfilFutebol";
 import PerfilBasquete from "./pages/perfil/PerfilBasquete";
 import PerfilVolei from "./pages/perfil/PerfilVolei";
 
-// Form
+// Perfil-Form
 import PerfilFutebolForm from "./pages/perfil/PerfilFutebolForm";
+
+// Grupo-Form
+import GrupoTabNav from "./pages/grupo/GrupoTabNav";
 
 // Jogo
 import Jogo from "./pages/jogo/Jogo";
@@ -29,48 +30,6 @@ import Historico from "./pages/jogo/Historico";
 // Pesquisa
 import Pesquisa from './pages/pesquisa/Pesquisa';
 import Mapa from './pages/pesquisa/Mapa';
-
-
-const MyNavScreen = ({ navigation, banner }) => (
-	<ScrollView>
-		<SafeAreaView forceInset={{ horizontal: 'always', vertical: 'never' }}>
-			<Text>{banner}</Text>
-			<Button
-				onPress={() => navigation.navigate('Profile', { name: 'Jordan' })}
-				title="Open profile screen"
-			/>
-      <Button
-        onPress={() => navigation.navigate('Pesquisa')}
-        title="Open mapa screen"
-      />
-      <Button
-        onPress={() => navigation.navigate('SettingsTab')}
-        title="Go to settings tab"
-      />
-      <Button onPress={() => navigation.goBack(null)} title="Go back" />
-    </SafeAreaView>
-    <StatusBar barStyle="default" />
-  </ScrollView>
-);
-
-const MyHomeScreen = ({ navigation }) => (
-  <MyNavScreen banner="Home Screen" navigation={navigation} />
-);
-
-const MyProfileScreen = ({ navigation }) => (
-  <MyNavScreen
-    banner={`${navigation.state.params.name}s Profile`}
-    navigation={navigation}
-  />
-);
-
-const MyNotificationsSettingsScreen = ({ navigation }) => (
-  <MyNavScreen banner="Notifications Screen" navigation={navigation} />
-);
-
-const MySettingsScreen = ({ navigation }) => (
-  <MyNavScreen banner="Settings Screen" navigation={navigation} />
-);
 
 // PERFIL
 const PerfilTabNav = createMaterialTopTabNavigator({
@@ -226,6 +185,9 @@ export default StacksOverTabs = createStackNavigator({
 			title: 'Perfil',
 		},
 	},
+	GrupoForm: {
+		screen: GrupoTabNav
+	}
 }, {
 	navigationOptions: {
 		title: 'Kevin',
