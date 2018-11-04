@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class FinanceiroJogo extends React.Component {
+class PerfilBasquete extends React.Component {
     render() {
 
         return (
             <View>
-                <Text>FinanceiroJogo</Text>
+                <Text>PerfilBasquete 02</Text>
             </View>
         );
     }
 }
 
-export default FinanceiroJogo;
+export default PerfilBasquete;

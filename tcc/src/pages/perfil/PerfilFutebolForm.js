@@ -20,7 +20,7 @@ import { setField, setFieldSegundoNivel, alterarJogador } from "../../actions";
 
 import moment from 'moment';
 
-class FutebolPerfilForm extends React.Component {
+class PerfilFutebolForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -172,4 +172,4 @@ const mapDispatchToProps = {
     alterarJogador,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FutebolPerfilForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PerfilFutebolForm);

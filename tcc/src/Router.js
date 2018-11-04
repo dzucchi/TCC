@@ -1,78 +1,207 @@
-import React from "react";
+import React from 'react';
+import { ScrollView, StatusBar, Button, Text } from 'react-native';
+import {
+  SafeAreaView,
+  createStackNavigator,
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+  getActiveChildNavigationOptions,
+} from 'react-navigation';
 
-import { 
-	createStackNavigator, 
-	createMaterialTopTabNavigator,
-	getActiveChildNavigationOptions
-} from "react-navigation";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+// Login
+import LoginPage from "./pages/LoginPage";
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+// Perfil
+import PerfilFutebol from "./pages/perfil/PerfilFutebol";
+import PerfilBasquete from "./pages/perfil/PerfilBasquete";
+import PerfilVolei from "./pages/perfil/PerfilVolei";
 
-import LoginPage from './pages/LoginPage'
+// Form
+import PerfilFutebolForm from "./pages/perfil/PerfilFutebolForm";
 
-import FutebolPerfilDetail from './pages/perfil/FutebolPerfilDetail'
-import FutebolPerfilForm from './pages/perfil/FutebolPerfilForm'
-import BasquetePerfil from './pages/perfil/BasquetePerfil'
-import VoleiPerfil from './pages/perfil/VoleiPerfil'
+// Jogo
+import Jogo from "./pages/jogo/Jogo";
+import Financeiro from "./pages/jogo/Financeiro";
+import Historico from "./pages/jogo/Historico";
 
-import JogosJogo from './pages/jogo/JogosJogo'
-import FinanceiroJogo from './pages/jogo/FinanceiroJogo'
-import HistoricoJogo from './pages/jogo/HistoricoJogo'
+// Pesquisa
+import Pesquisa from './pages/pesquisa/Pesquisa';
+import Mapa from './pages/pesquisa/Mapa';
 
-import MapaPesquisa from './pages/pesquisa/MapaPesquisa'
-import BuscarPesquisa from './pages/pesquisa/BuscarPesquisa'
 
-const PerfilMatTab = createMaterialTopTabNavigator({
-	Futebol: FutebolPerfilDetail,
-	Basquete: BasquetePerfil,
-	Volei: VoleiPerfil
-});
+const MyNavScreen = ({ navigation, banner }) => (
+	<ScrollView>
+		<SafeAreaView forceInset={{ horizontal: 'always', vertical: 'never' }}>
+			<Text>{banner}</Text>
+			<Button
+				onPress={() => navigation.navigate('Profile', { name: 'Jordan' })}
+				title="Open profile screen"
+			/>
+      <Button
+        onPress={() => navigation.navigate('Pesquisa')}
+        title="Open mapa screen"
+      />
+      <Button
+        onPress={() => navigation.navigate('SettingsTab')}
+        title="Go to settings tab"
+      />
+      <Button onPress={() => navigation.goBack(null)} title="Go back" />
+    </SafeAreaView>
+    <StatusBar barStyle="default" />
+  </ScrollView>
+);
 
-const JogoMatTab = createMaterialTopTabNavigator({
-	Jogos: JogosJogo,
-	Financeiro: FinanceiroJogo,
-	Historico: HistoricoJogo
-});
+const MyHomeScreen = ({ navigation }) => (
+  <MyNavScreen banner="Home Screen" navigation={navigation} />
+);
 
-const PesquisaMatTab = createMaterialTopTabNavigator({
-	Mapa: MapaPesquisa,
-	Buscar: BuscarPesquisa,
-});
+const MyProfileScreen = ({ navigation }) => (
+  <MyNavScreen
+    banner={`${navigation.state.params.name}s Profile`}
+    navigation={navigation}
+  />
+);
 
-const TabNav = createMaterialBottomTabNavigator({
-	Perfil: {
-		screen: PerfilMatTab,
+const MyNotificationsSettingsScreen = ({ navigation }) => (
+  <MyNavScreen banner="Notifications Screen" navigation={navigation} />
+);
+
+const MySettingsScreen = ({ navigation }) => (
+  <MyNavScreen banner="Settings Screen" navigation={navigation} />
+);
+
+// PERFIL
+const PerfilTabNav = createMaterialTopTabNavigator({
+	PerfilFutebol: {
+		screen: PerfilFutebol,
 		navigationOptions: {
-			tabBarIcon: ({ tintColor }) => (
-				<Icon name='account-circle' color={tintColor} size={26} />
-			)
+			tabBarLabel: 'Perfil',
 		}
 	},
-	Jogo: {
-		screen: JogoMatTab,
+	PerfilBasquete: {
+		screen: PerfilBasquete,
 		navigationOptions: {
-			tabBarIcon: ({ tintColor }) => (
-				<Icon name='soccer-field' color={tintColor} size={26} />
-			)
+			tabBarLabel: 'Basquete',
 		}
 	},
-	Pesquisar: {
-		screen: PesquisaMatTab,	
+	PerfilVolei: {
+		screen: PerfilVolei,
 		navigationOptions: {
+			tabBarLabel: 'Vôlei',
+		}
+	}
+});
+
+// JOGO
+const JogoTabNav = createMaterialTopTabNavigator({
+	Jogo : {
+		screen: Jogo,
+		navigationOptions: ({ navigation }) => {
+			if (navigation.state.params && navigation.state.params.grupo) {
+				return {
+					title: navigation.state.params.grupo.nome,
+					tabBarLabel: 'Jogo',
+				} 
+			}
+			return {
+				title: 'Jogo',
+				tabBarLabel: 'Jogo',
+			}
+      	},
+	},
+	Financeiro: {
+		screen: Financeiro,
+		navigationOptions: {
+			title: 'Financeiro',
+			tabBarLabel: 'Financeiro',
+		}
+	},
+	Historico: {
+		screen: Historico,
+		navigationOptions: {
+			title: 'Histórico',
+			tabBarLabel: 'Histórico',
+		}
+	},
+});
+
+// PESQUISAR
+const PesquisaTabNav = createMaterialTopTabNavigator({
+	Mapa: {
+		screen: Mapa,
+		navigationOptions: {
+			title: 'Mapa',
+			tabBarLabel: 'Mapa',
+		}
+	},
+	Pesquisa: {
+		screen: Pesquisa,
+		navigationOptions: {
+			title: 'Pesquisa',
+			tabBarLabel: 'Pesquisa',
+		}
+	},
+});
+
+const TabNav = createBottomTabNavigator({
+    PerfilTab: {
+		screen: PerfilTabNav,
+      	navigationOptions: {
+			title: 'Perfil',
+			tabBarLabel: 'Perfil',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name='google-maps' color={tintColor} size={26} />
+				<Icon
+					name='account-circle'
+					size={26}
+					style={{ color: tintColor }}
+				/>
 			),
-		}
+      	},
+    },
+    JogoTab: {
+      	screen: JogoTabNav,
+      	navigationOptions: ({ navigation }) => {
+			const { params } = navigation.state.routes[navigation.state.index];
+			let nomeGrupo = 'Jogo';
+			if (params && params.grupo) {
+				nomeGrupo = params.grupo.nome;
+			}
+			return {
+				title: nomeGrupo,
+				tabBarLabel: 'Jogo',
+				tabBarIcon: ({ tintColor }) => (
+					<Icon
+						name='soccer-field'
+						size={26}
+						style={{ color: tintColor }}
+					/>
+				),
+			}
+      	},
 	},
-},{
-	shifting: true,
-    barStyle: {
-	  height: 55,
-	  backgroundColor: '#3868f7',
-    }
+	PesquisaTab: {
+		screen: PesquisaTabNav,
+		navigationOptions: {
+			title: 'Pesquisar',
+			tabBarLabel: 'Pesquisar',
+		  	tabBarIcon: ({ tintColor }) => (
+				<Icon
+					name='google-maps'
+					size={26}
+					style={{ color: tintColor }}
+				/>
+		  	),
+		},
+	},
+}, {
+	tabBarPosition: 'bottom',
+	animationEnabled: false,
+	swipeEnabled: false,
 });
+
+
 
 TabNav.navigationOptions = ({ navigation, screenProps }) => {
 	const childOptions = getActiveChildNavigationOptions(navigation, screenProps);
@@ -81,23 +210,25 @@ TabNav.navigationOptions = ({ navigation, screenProps }) => {
 	};
 };
 
-export default createStackNavigator({
-	'Login': {
+export default StacksOverTabs = createStackNavigator({
+	Login: {
 		screen: LoginPage,
 		navigationOptions: {
 			title: 'Kevin',
 		}
 	},
-	'Main' : TabNav,
-	'FutebolPerfilForm' : {
-		screen: FutebolPerfilForm,
+	Main: {
+		screen: TabNav
+	},
+	PerfilFutebolForm: {
+		screen: PerfilFutebolForm,
 		navigationOptions: {
 			title: 'Perfil',
-		}
+		},
 	},
 }, {
 	navigationOptions: {
-		title: 'Séries!',
+		title: 'Kevin',
 		headerTintColor: 'white',
 		headerStyle: {
 			backgroundColor: '#006dcc',

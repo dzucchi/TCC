@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class VoleiPerfil extends React.Component {
+class PerfilVolei extends React.Component {
     render() {
 
         return (
             <View>
-                <Text>VoleiPerfil 01</Text>
+                <Text>PerfilVolei 01</Text>
             </View>
         );
     }
 }
 
-export default VoleiPerfil;
+export default PerfilVolei;

@@ -7,11 +7,10 @@ import { AgeFromDateString } from "age-calculator";
 
 import AddGrupoItem from "../../components/AddGrupoItem";
 import GrupoItem from "../../components/GrupoItem";
-import { gray } from "ansi-colors";
 
 const isEven = number => number % 2 === 0;
 
-class FutebolPerfilDetail extends React.Component {
+class PerfilFutebol extends React.Component {
     componentDidMount() {
         this.props.watchJogador().then(() => {
             this.props.watchGrupos();
@@ -45,8 +44,8 @@ class FutebolPerfilDetail extends React.Component {
                         item.isLast 
                             ? <AddGrupoItem />
                             : <GrupoItem
-                                grupo={item} 
-                                onPress={() => navigation.navigate('JogoMatTab', { grupo: item })} />
+                                grupo={item}
+                                onPress={() => navigation.navigate('Jogo', { grupo: item })} />
                     )}
                     keyExtractor={(item, id) => id.toString()}
                     ListHeaderComponent={props => (<View style={styles.marginTop} />)}
@@ -88,7 +87,7 @@ class FutebolPerfilDetail extends React.Component {
                 <View style={styles.button}>
                     <Button 
                         title="Editar" 
-                        onPress={() => navigation.navigate('FutebolPerfilForm')} />
+                        onPress={() => navigation.navigate('PerfilFutebolForm')} />
                 </View>
 
                 <View style={styles.labelGrupos}>
@@ -158,4 +157,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FutebolPerfilDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(PerfilFutebol);

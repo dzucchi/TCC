@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class BuscarPesquisa extends React.Component {
+class Mapa extends React.Component {
     render() {
 
         return (
             <View>
-                <Text>BuscarPesquisa</Text>
+                <Text>Mapa</Text>
             </View>
         );
     }
 }
 
-export default BuscarPesquisa;
+export default Mapa;
