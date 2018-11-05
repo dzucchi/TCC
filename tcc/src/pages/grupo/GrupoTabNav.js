@@ -1,12 +1,12 @@
 import { createMaterialTopTabNavigator } from 'react-navigation';
 
 import GrupoBasquete from "./GrupoBasquete";
-import GrupoFutebol from "./GrupoFutebol";
+import GrupoFutebolForm from "./GrupoFutebolForm";
 import GrupoVolei from "./GrupoVolei";
 
 export default createMaterialTopTabNavigator({
-	GrupoFutebol: {
-		screen: GrupoFutebol,
+	GrupoFutebolForm: {
+		screen: GrupoFutebolForm,
 		navigationOptions: {
 			tabBarLabel: 'Futebol',
 		}

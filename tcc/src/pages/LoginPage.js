@@ -44,7 +44,7 @@ class LoginPage extends React.Component {
         this.props.tryLogin({ email, password })
             .then((user) => {
                 if (user) {
-                    this.props.navigation.replace('Main');    
+                    this.props.navigation.replace('Main');
                 } else {
                     this.setState({
                         isLoading: false,
