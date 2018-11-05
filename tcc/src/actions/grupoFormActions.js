@@ -25,25 +25,6 @@ export const resetForm = () => ({
     type: RESET_FORM
 });
 
-const inserirGrupoNoJogador = (idGrupo) => {
-
-    let myObj = {}
-    myObj[idGrupo] = true;
-
-    console.log('OBJBJBJ, ', myObj)
-
-    const { currentUser } = firebase.auth();
-    console.log('oi2');
-    return async (dispatch, getState) => {
-        console.log('oi3')
-        console.log(`/jogadores/${currentUser.uid}/${getState().jogador.id}/grupos`)
-        const db = firebase.database();
-        await db
-        .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/grupos`)
-        .set(myObj);
-    }
-}
-
 export const saveGrupo = grupo => {
     const { currentUser } = firebase.auth();
     return async (dispatch, getState) => {
@@ -52,10 +33,16 @@ export const saveGrupo = grupo => {
             await db.ref(`/grupos/${grupo.id}`).set(grupo);    
         } else {
             grupo.id_lider = currentUser.uid;
+            // grupo.jogadores[currentUser.uid] = true;
             const snap = await db.ref(`/grupos`).push(grupo);
+            const keyGrupoInserido = snap.key;
 
-            let myObj = {}
-            myObj[snap.key] = true;
+            const { grupos } = getState().jogador;
+            grupos.keyGrupoInserido = true;
+            // ou grupos[keyGrupoInserido] = true;
+
+            // let myObj = {}
+            // myObj[snap.key] = true;
 
             // let grupos = [{}];
             // await db
@@ -64,9 +51,9 @@ export const saveGrupo = grupo => {
             //         grupos = snapshot.val();
             //     });
             await db
-                .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/grupos`)
-                .child(snap.key)
-                .setValue(true);
+                .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/`)
+                .child('grupos')
+                .set(grupos);
         } 
         dispatch(grupoSaveSuccess())   
     }
