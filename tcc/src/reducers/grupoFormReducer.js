@@ -10,8 +10,12 @@ const INITIAL_STATE = {
     privado: false,
     estagio: 0,
     categoria: 'Society',
+    jogadores: {},
     endereco: '',
-    jogadores: {}
+    localizacao: {
+        lat: 0,
+        lng: 0
+    }
 }
 
 export default function (state = INITIAL_STATE, action) {

@@ -8,18 +8,25 @@ import {
     ScrollView, 
     TouchableOpacity,
     ActivityIndicator,
-    Alert
+    Alert,
+    View,
+    CheckBox,
+    KeyboardAvoidingView
 } from "react-native";
 
 import { connect } from "react-redux";
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 
+import moment from 'moment';
+
+import { GoogleAutoComplete } from "react-native-google-autocomplete";
+
 import FormRow from "../../components/FormRow";
 
 import { setFieldGrupo, saveGrupo, setWholeGrupo, resetForm } from "../../actions";
 
-import moment from 'moment';
+import LocationItem from "../../components/LocationItem";
 
 class GrupoFutebolForm extends React.Component {
     constructor(props) {
@@ -30,6 +37,7 @@ class GrupoFutebolForm extends React.Component {
             isVisible1: false,
             isVisible2: false,
             chosenDate: '',
+            checked: false,
         }
     }
 
@@ -102,76 +110,138 @@ class GrupoFutebolForm extends React.Component {
         const { grupoForm, setFieldGrupo } = this.props;
 
         return (
-            <ScrollView>
-                <FormRow first>
-                    <Text style={styles.labelfixed}>Nome do grupo</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={grupoForm.nome}
-                        onChangeText={value => setFieldGrupo('nome', value)}
-                    />
-                </FormRow> 
+            <KeyboardAvoidingView
+                behavior='padding' 
+                enabled
+                keyboardVerticalOffset={150}>
+                <ScrollView>
+                    <FormRow first>
+                        <Text style={styles.labelfixed}>Nome do grupo</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={grupoForm.nome}
+                            onChangeText={value => setFieldGrupo('nome', value)}
+                        />
+                    </FormRow>
 
-                <FormRow>
-                    <Text style={styles.labelfixed}>Dia da semana</Text>
-                    <Picker
-                        selectedValue={grupoForm.dia_da_semana}
-                        onValueChange={itemValue => setFieldGrupo('dia_da_semana', itemValue)}>
-                        <Picker.Item label="Segunda-feira" value="Segunda-feira" />
-                        <Picker.Item label="Terça-feira" value="Terça-feira" />
-                        <Picker.Item label="Quarta-feira" value="Quarta-feira" />
-                        <Picker.Item label="Quinta-feira" value="Quinta-feira" />
-                        <Picker.Item label="Sexta-feira" value="Sexta-feira" />
-                        <Picker.Item label="Sábado" value="Sábado" />
-                        <Picker.Item label="Domingo" value="Domingo" />
-                    </Picker>
-                </FormRow>
+                    <FormRow>
+                        <Text style={styles.labelfixed}>Localizar endereço</Text>
+                        <GoogleAutoComplete 
+                            apiKey="AIzaSyCXjQR2IrF0tWKliRccy_CUkX-__qynY1Y" 
+                            debounce={500} 
+                            minLength={3} 
+                            query={{
+                                key: "AIzaSyCXjQR2IrF0tWKliRccy_CUkX-__qynY1Y",
+                                language: 'pt',
+                            }}
+                            currentLocation={true}
+                        >
+                            {({ 
+                                handleTextChange, 
+                                locationResults, 
+                                fetchDetails, 
+                                isSearching,
+                                inputValue,
+                                clearSearchs
+                            }) => (
+                                <React.Fragment>
+                                    <View>
+                                        <TextInput
+                                            onChangeText={handleTextChange}
+                                            value={inputValue}
+                                            returnKeyType='search'
+                                        />
+                                    </View>
+                                    {isSearching && <ActivityIndicator size="large" />}
+                                    <ScrollView>
+                                        {locationResults.map(el => (
+                                            <LocationItem
+                                                {...el}
+                                                key={el.id}
+                                                fetchDetails={fetchDetails}
+                                                onPress={clearSearchs}
+                                            />
+                                        ))}
+                                    </ScrollView>
+                                </React.Fragment>
+                            )}
+                        </GoogleAutoComplete>
+                    </FormRow>
 
-                <FormRow>
-                    <TouchableOpacity onPress={this.showPicker1}>
-                        <Text style={styles.labelfixed}>Hora início</Text>
-                        <Text>
-                            {grupoForm.hora_inicio}
-                        </Text>
-                    </TouchableOpacity>
+                    <FormRow>
+                        <Text style={styles.labelfixed}>Categoria</Text>
+                        <Picker
+                            selectedValue={grupoForm.categoria}
+                            onValueChange={itemValue => setFieldGrupo('categoria', itemValue)}>
+                            <Picker.Item label="Society" value="Society" />
+                            <Picker.Item label="Salão" value="Salão" />
+                            <Picker.Item label="Campo" value="Campo" />
+                        </Picker>
+                    </FormRow>
 
-                    <DateTimePicker
-                        isVisible={this.state.isVisible1}
-                        onConfirm={this.handlePicker1}
-                        onCancel={this.hidePicker1}
-                        mode={'time'}
-                    />
-                </FormRow>
+                    <FormRow>
+                        <Text style={styles.labelfixed}>Dia da semana</Text>
+                        <Picker
+                            selectedValue={grupoForm.dia_da_semana}
+                            onValueChange={itemValue => setFieldGrupo('dia_da_semana', itemValue)}>
+                            <Picker.Item label="Segunda-feira" value="Segunda-feira" />
+                            <Picker.Item label="Terça-feira" value="Terça-feira" />
+                            <Picker.Item label="Quarta-feira" value="Quarta-feira" />
+                            <Picker.Item label="Quinta-feira" value="Quinta-feira" />
+                            <Picker.Item label="Sexta-feira" value="Sexta-feira" />
+                            <Picker.Item label="Sábado" value="Sábado" />
+                            <Picker.Item label="Domingo" value="Domingo" />
+                        </Picker>
+                    </FormRow>
 
-                <FormRow>
-                    <TouchableOpacity onPress={this.showPicker2}>
-                        <Text style={styles.labelfixed}>Hora fim</Text>
-                        <Text>
-                            {grupoForm.hora_fim}
-                        </Text>
-                    </TouchableOpacity>
+                    <FormRow>
+                        <TouchableOpacity onPress={this.showPicker1}>
+                            <Text style={styles.labelfixed}>Hora início</Text>
+                            <Text>
+                                {grupoForm.hora_inicio}
+                            </Text>
+                        </TouchableOpacity>
 
-                    <DateTimePicker
-                        isVisible={this.state.isVisible2}
-                        onConfirm={this.handlePicker2}
-                        onCancel={this.hidePicker2}
-                        mode={'time'}
-                    />
-                </FormRow>
+                        <DateTimePicker
+                            isVisible={this.state.isVisible1}
+                            onConfirm={this.handlePicker1}
+                            onCancel={this.hidePicker1}
+                            mode={'time'}
+                        />
+                    </FormRow>
 
-                <FormRow>
-                    <Text style={styles.labelfixed}>Categoria</Text>
-                    <Picker
-                        selectedValue={grupoForm.categoria}
-                        onValueChange={itemValue => setFieldGrupo('categoria', itemValue)}>
-                        <Picker.Item label="Society" value="Society" />
-                        <Picker.Item label="Salão" value="Salão" />
-                        <Picker.Item label="Campo" value="Campo" />
-                    </Picker>
-                </FormRow>
+                    <FormRow>
+                        <TouchableOpacity onPress={this.showPicker2}>
+                            <Text style={styles.labelfixed}>Hora fim</Text>
+                            <Text>
+                                {grupoForm.hora_fim}
+                            </Text>
+                        </TouchableOpacity>
 
-                { this.renderButton() }
-            </ScrollView>
+                        <DateTimePicker
+                            isVisible={this.state.isVisible2}
+                            onConfirm={this.handlePicker2}
+                            onCancel={this.hidePicker2}
+                            mode={'time'}
+                        />
+                    </FormRow>
+
+                    <FormRow>
+                        <Text style={styles.labelfixed}>Tornar o grupo privado?</Text>
+                        <View style={{ flexDirection: 'column'}}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <CheckBox
+                                    value={grupoForm.privado}
+                                    onValueChange={itemValue => setFieldGrupo('privado', itemValue)}
+                                />
+                                <Text style={{marginTop: 5}}></Text>
+                            </View>
+                        </View>
+                    </FormRow>
+
+                    { this.renderButton() }
+                </ScrollView>
+            </KeyboardAvoidingView>
         );
     }
 }
