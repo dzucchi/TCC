@@ -6,24 +6,24 @@ const setGrupos = grupos => ({
     grupos,
 });
 
-export const watchGrupos = () => {   
+export const watchGrupos = () => {
     return (dispatch, getState) => {
-        const grupoKeys = Object.keys(getState().jogador.grupos);
-        let promises = grupoKeys.map(key => {
-            return new Promise(function(resolve, reject) {
-                firebase
-                    .database()
-                    .ref(`/grupos/${key}`)
-                    .on('value', snapshot => {
-                        const grupo = snapshot.val();
-                        return resolve({...grupo, id:key});
-                    });
+        firebase
+            .database()
+            .ref(`/grupos`)
+            .on('value', snapshot => {
+                const grupoKeys = Object.keys(getState().jogador.grupos);
+                let grupos = {}
+                const grupoKeysBaseON = Object.keys(snapshot.val());
+                grupoKeysBaseON.forEach(function(keyON) {                 
+                    grupoKeys.forEach(function(key) {
+                        if (key === keyON) {
+                            grupos = [...grupos, snapshot.val()[keyON]]
+                        }
+                    })
+                })
+                dispatch(setGrupos(grupos))
             });
-        });
-        Promise.all(promises).then((grupo) => {
-            const action = setGrupos(grupo);
-            dispatch(action);
-        });
     }
 }
 

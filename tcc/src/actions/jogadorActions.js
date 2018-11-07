@@ -56,6 +56,7 @@ export const watchJogador = () => {
                 .database()
                 .ref(`/jogadores/${currentUser.uid}`)
                 .on('value', snapshot => {
+                    console.log('watchJogador')
                     const jogador = snapshot.val();
                     if (jogador) {
                         const keys = Object.keys(jogador);

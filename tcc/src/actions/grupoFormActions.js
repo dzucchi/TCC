@@ -33,23 +33,13 @@ export const saveGrupo = grupo => {
             await db.ref(`/grupos/${grupo.id}`).set(grupo);    
         } else {
             grupo.id_lider = currentUser.uid;
-            // grupo.jogadores[currentUser.uid] = true;
+            grupo.jogadores[currentUser.uid] = true;
             const snap = await db.ref(`/grupos`).push(grupo);
             const keyGrupoInserido = snap.key;
 
             const { grupos } = getState().jogador;
-            grupos.keyGrupoInserido = true;
-            // ou grupos[keyGrupoInserido] = true;
+            grupos[keyGrupoInserido] = true;
 
-            // let myObj = {}
-            // myObj[snap.key] = true;
-
-            // let grupos = [{}];
-            // await db
-            //     .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/grupos`)
-            //     .on('value', snapshot => {
-            //         grupos = snapshot.val();
-            //     });
             await db
                 .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/`)
                 .child('grupos')

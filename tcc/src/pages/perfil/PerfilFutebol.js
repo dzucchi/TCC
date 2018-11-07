@@ -8,8 +8,6 @@ import { AgeFromDateString } from "age-calculator";
 import AddGrupoItem from "../../components/AddGrupoItem";
 import GrupoItem from "../../components/GrupoItem";
 
-const isEven = number => number % 2 === 0;
-
 class PerfilFutebol extends React.Component {
     componentDidMount() {
         this.props.watchJogador().then(() => {

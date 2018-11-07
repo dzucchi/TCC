@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     privado: false,
     estagio: 0,
     categoria: 'Society',
-    endereco: ''
+    endereco: '',
+    jogadores: {}
 }
 
 export default function (state = INITIAL_STATE, action) {
