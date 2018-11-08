@@ -7,9 +7,10 @@ import { setFieldGrupo } from "../actions";
 
 class LocationItem extends React.Component {
     _handlePress = async () => {
-        const { setFieldGrupo, onPress } = this.props;
-        const res = await this.props.fetchDetails(this.props.place_id)
+        const { setFieldGrupo, fetchDetails, onPress } = this.props;
+        const res = await fetchDetails(this.props.place_id)
         const { lat, lng } = res.geometry.location;
+        this.props.inputValue = res.formatted_address;
         setFieldGrupo('localizacao', { lat, lng });
         setFieldGrupo('endereco', res.formatted_address)
         onPress();

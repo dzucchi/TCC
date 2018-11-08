@@ -10,8 +10,7 @@ import {
     ActivityIndicator,
     Alert,
     View,
-    CheckBox,
-    KeyboardAvoidingView
+    CheckBox
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -21,6 +20,8 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from 'moment';
 
 import { GoogleAutoComplete } from "react-native-google-autocomplete";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import FormRow from "../../components/FormRow";
 
@@ -110,10 +111,9 @@ class GrupoFutebolForm extends React.Component {
         const { grupoForm, setFieldGrupo } = this.props;
 
         return (
-            <KeyboardAvoidingView
-                behavior='padding' 
-                enabled
-                keyboardVerticalOffset={150}>
+            <KeyboardAwareScrollView
+                style={{flex: 1}}
+            >
                 <ScrollView>
                     <FormRow first>
                         <Text style={styles.labelfixed}>Nome do grupo</Text>
@@ -132,23 +132,27 @@ class GrupoFutebolForm extends React.Component {
                             minLength={3} 
                             query={{
                                 key: "AIzaSyCXjQR2IrF0tWKliRccy_CUkX-__qynY1Y",
-                                language: 'pt',
+                                language: 'pt-br',
                             }}
                             currentLocation={true}
+                            components="country:br"
                         >
                             {({ 
                                 handleTextChange, 
-                                locationResults, 
-                                fetchDetails, 
-                                isSearching,
                                 inputValue,
+                                locationResults, 
+                                fetchDetails,
+                                isSearching,
                                 clearSearchs
                             }) => (
                                 <React.Fragment>
                                     <View>
                                         <TextInput
-                                            onChangeText={handleTextChange}
-                                            value={inputValue}
+                                            onChangeText={(value) => {
+                                                setFieldGrupo('endereco', value);
+                                                handleTextChange(value);
+                                            }}
+                                            value={grupoForm.endereco}
                                             returnKeyType='search'
                                         />
                                     </View>
@@ -159,7 +163,11 @@ class GrupoFutebolForm extends React.Component {
                                                 {...el}
                                                 key={el.id}
                                                 fetchDetails={fetchDetails}
-                                                onPress={clearSearchs}
+                                                inputValue={grupoForm.endereco}
+                                                onPress={() => {
+                                                    inputValue = grupoForm.endereco;
+                                                    clearSearchs()
+                                                }}
                                             />
                                         ))}
                                     </ScrollView>
@@ -241,7 +249,7 @@ class GrupoFutebolForm extends React.Component {
 
                     { this.renderButton() }
                 </ScrollView>
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
         );
     }
 }

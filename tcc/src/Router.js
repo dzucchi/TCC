@@ -24,6 +24,7 @@ import GrupoTabNav from "./pages/grupo/GrupoTabNav";
 
 // Jogo
 import Jogo from "./pages/jogo/Jogo";
+import JogoNovaPartida from "./pages/jogo/JogoNovaPartida";
 import Financeiro from "./pages/jogo/Financeiro";
 import Historico from "./pages/jogo/Historico";
 
@@ -187,6 +188,9 @@ export default StacksOverTabs = createStackNavigator({
 	},
 	GrupoForm: {
 		screen: GrupoTabNav
+	},
+	JogoNovaPartida: {
+		screen: JogoNovaPartida
 	}
 }, {
 	navigationOptions: {

@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, View, Text, Button, ActivityIndicator, FlatList } from "react-native";
 import { connect } from "react-redux";
-import { watchJogador, watchGrupos, setField } from "../../actions";
+import { watchJogador, watchGrupos, setField, setSelectedGrupo } from "../../actions";
 
 import { AgeFromDateString } from "age-calculator";
 
@@ -34,6 +34,7 @@ class PerfilFutebol extends React.Component {
     }
 
     listarGrupos(grupos, navigation) {
+        const { setSelectedGrupo } = this.props;
         return (
             <View>
                 <FlatList
@@ -44,7 +45,10 @@ class PerfilFutebol extends React.Component {
                                 onPress={() => navigation.navigate('GrupoForm')} />
                             : <GrupoItem
                                 grupo={item}
-                                onPress={() => navigation.navigate('Jogo', { grupo: item })} />
+                                onPress={() => {
+                                    setSelectedGrupo(item);
+                                    navigation.navigate('Jogo');
+                                }} />
                     )}
                     keyExtractor={(item, id) => id.toString()}
                     ListHeaderComponent={props => (<View style={styles.marginTop} />)}
@@ -145,7 +149,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
     watchJogador,
     watchGrupos,
-    setField
+    setField,
+    setSelectedGrupo,
 }
 
 const mapStateToProps = state => {

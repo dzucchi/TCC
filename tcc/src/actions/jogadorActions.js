@@ -28,13 +28,14 @@ export const setJogador = jogador => ({
 export const inserirJogador = jogador => {
     const { currentUser } = firebase.auth();
     const db = firebase.database();
+    jogador[id] = currentUser.uid;
     const id = db
         .ref(`/jogadores/${currentUser.uid}`)
         .push(jogador)
         .key;
-    db
-    .ref(`/jogadores/${currentUser.uid}/${id}`)
-    .set({...jogador, id});
+    // db
+    // .ref(`/jogadores/${currentUser.uid}/${id}`)
+    // .set({...jogador, id});
     return id;
 }
 
