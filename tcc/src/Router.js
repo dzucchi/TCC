@@ -21,6 +21,7 @@ import PerfilFutebolForm from "./pages/perfil/PerfilFutebolForm";
 
 // Grupo-Form
 import GrupoTabNav from "./pages/grupo/GrupoTabNav";
+import GrupoFutebolForm from "./pages/grupo/GrupoFutebolForm";
 
 // Jogo
 import Jogo from "./pages/jogo/Jogo";
@@ -191,6 +192,9 @@ export default StacksOverTabs = createStackNavigator({
 	},
 	JogoNovaPartida: {
 		screen: JogoNovaPartida
+	},
+	GrupoFutebolForm: {
+		screen: GrupoFutebolForm
 	}
 }, {
 	navigationOptions: {
