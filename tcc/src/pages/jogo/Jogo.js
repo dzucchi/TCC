@@ -6,18 +6,18 @@ import { connect } from "react-redux";
 class Jogo extends React.Component {
     renderButton() {
         const { grupoSelected, jogador, navigation } = this.props;
-        if (grupoSelected.idLider === jogador.id) {
+        if (grupoSelected.id_lider === jogador.id_user) {
             return (
                 <View style={{paddingTop: 20}}>
                     <Button
-                        title='Criar partida' 
+                        title='Agendar jogo' 
                         onPress={() => navigation.navigate('JogoNovaPartida')} />
                 </View>
             );
         } else {
             return (
                 <View style={{paddingTop: 20}}>
-                    <Text>Nenhuma partida em andamento!</Text>
+                    <Text>Nenhum jogo marcado</Text>
                 </View>
             )
         }
@@ -25,7 +25,6 @@ class Jogo extends React.Component {
 
     render() {
         const { grupoSelected } = this.props;
-        console.log(grupoSelected);
         if (grupoSelected.estagio === 0) {
             return (
                 <View style={styles.card}>

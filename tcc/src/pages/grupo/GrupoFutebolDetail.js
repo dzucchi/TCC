@@ -1,7 +1,5 @@
 import React from "react";
-import { 
-    StyleSheet,
-    Text,
+import {
     Button, 
     ScrollView, 
 } from "react-native";
@@ -12,15 +10,17 @@ import Line from "../../components/Line";
 
 class GrupoFutebolDetail extends React.Component {
     renderButton() {
-        const { navigation, grupoSelected } = this.props;
+        const { navigation, grupoSelected, jogador } = this.props;
 
-        return (
-            <Button
-                title="Editar"
-                onPress={async() => {
-                    navigation.navigate('GrupoFutebolForm', { grupoToEdit: grupoSelected });
-                }} />
-            );
+        if (grupoSelected.id_lider === jogador.id_user) {
+            return (
+                <Button
+                    title="Editar"
+                    onPress={async() => {
+                        navigation.navigate('GrupoFutebolForm', { grupoToEdit: grupoSelected });
+                    }} />
+                );
+        }
     }
 
     render() {
@@ -28,7 +28,6 @@ class GrupoFutebolDetail extends React.Component {
 
         return (
             <ScrollView>
-
                 <Line label="Nome do grupo" content={grupoSelected.nome}/>
                 <Line label="Endereço" content={grupoSelected.endereco}/>
                 <Line label="Categoria" content={grupoSelected.categoria}/>
@@ -44,20 +43,10 @@ class GrupoFutebolDetail extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
-    input: {
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingBottom: 5,
-    },
-    labelfixed: {
-        color: '#778899',
-    }
-});
-
 function mapStateToProps(state) {
     return {
-        grupoSelected: state.grupoSelected
+        grupoSelected: state.grupoSelected,
+        jogador: state.jogador,
     }
 }
 

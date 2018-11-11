@@ -4,11 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 const Line = ({label = "", content = "" }) => {
     return (
         <View style={styles.line}>
-            <Text style={[
-                styles.cell, 
-                styles.label, 
-                label.length > 8 ? styles.longLabel : null
-                ]}> { label } </Text>
+            <Text style={[styles.label]}>{ label }</Text>
             <Text style={[styles.cell, styles.content]}>{ content }</Text>    
         </View>
     );
@@ -16,10 +12,8 @@ const Line = ({label = "", content = "" }) => {
 
 const styles = StyleSheet.create({
     line: {
-        flexDirection: 'row',
         paddingTop: 3,
         paddingBottom: 3,
-        borderWidth: 1,
         borderColor: '#C5C5C5'
    },
    cell: {
@@ -27,15 +21,17 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
    },
    label: {
-       fontWeight: 'bold',
-       flex: 1,
+        color: '#778899',
+        fontWeight: 'bold',
+        paddingLeft: 5,
    },
    content: {
-       flex: 3
+        padding: 10,
+        backgroundColor: 'white',
+        marginTop: 5,
+        marginBottom: 5,
+        elevation: 1
    },
-   longLabel: {
-       fontSize: 12,
-   }
 });
 
 export default Line;

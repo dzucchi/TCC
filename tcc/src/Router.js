@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -26,8 +27,10 @@ import GrupoFutebolForm from "./pages/grupo/GrupoFutebolForm";
 // Jogo
 import Jogo from "./pages/jogo/Jogo";
 import JogoNovaPartida from "./pages/jogo/JogoNovaPartida";
+import JogoConfirmaPresenca from "./pages/jogo/JogoConfirmaPresenca";
 import Financeiro from "./pages/jogo/Financeiro";
 import Historico from "./pages/jogo/Historico";
+import GrupoFutebolDetail from "./pages/grupo/GrupoFutebolDetail";
 
 // Pesquisa
 import Pesquisa from './pages/pesquisa/Pesquisa';
@@ -86,6 +89,20 @@ const JogoTabNav = createMaterialTopTabNavigator({
 			tabBarLabel: 'Histórico',
 		}
 	},
+	Configuracao: {
+		screen: GrupoFutebolDetail,
+		navigationOptions: {
+			title: 'Configuração',
+			tabBarLabel: 'C',
+			tabBarIcon: ({ tintColor }) => (
+				<Icon
+					name='account-circle'
+					size={26}
+					style={{ color: tintColor }}
+				/>
+			),
+		}
+	}
 });
 
 // PESQUISAR
@@ -179,7 +196,7 @@ export default StacksOverTabs = createStackNavigator({
 		}
 	},
 	Main: {
-		screen: TabNav
+		screen: TabNav,
 	},
 	PerfilFutebolForm: {
 		screen: PerfilFutebolForm,
@@ -192,6 +209,9 @@ export default StacksOverTabs = createStackNavigator({
 	},
 	JogoNovaPartida: {
 		screen: JogoNovaPartida
+	},
+	JogoConfirmaPresenca: {
+		screen: JogoConfirmaPresenca
 	},
 	GrupoFutebolForm: {
 		screen: GrupoFutebolForm

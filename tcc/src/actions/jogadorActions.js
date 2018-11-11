@@ -25,20 +25,6 @@ export const setJogador = jogador => ({
     jogador,
 });
 
-export const inserirJogador = jogador => {
-    const { currentUser } = firebase.auth();
-    const db = firebase.database();
-    jogador[id] = currentUser.uid;
-    const id = db
-        .ref(`/jogadores/${currentUser.uid}`)
-        .push(jogador)
-        .key;
-    // db
-    // .ref(`/jogadores/${currentUser.uid}/${id}`)
-    // .set({...jogador, id});
-    return id;
-}
-
 export const alterarJogador = jogador => {
     const { currentUser } = firebase.auth();
     return async () => {
@@ -49,15 +35,14 @@ export const alterarJogador = jogador => {
     } 
 }
 
-export const watchJogador = () => {
+export const watchJogador = () => {  
     const { currentUser } = firebase.auth();
-    return dispatch => {
+    return (dispatch, getState) => {
         return new Promise((resolve, reject) => {
             firebase
                 .database()
                 .ref(`/jogadores/${currentUser.uid}`)
-                .on('value', snapshot => {
-                    console.log('watchJogador')
+                .on('value', async snapshot => {
                     const jogador = snapshot.val();
                     if (jogador) {
                         const keys = Object.keys(jogador);
@@ -65,18 +50,39 @@ export const watchJogador = () => {
                         dispatch(action);
                         resolve();
                     } else {
-                        const id = inserirJogador(INITIAL_STATE);
-                        const action = setJogador({...INITIAL_STATE, id});
+                        let novoJogador = { ...INITIAL_STATE };
+
+                        //Obtendo a ref.
+                        const db = firebase.database();
+                        const snap = db.ref(`/jogadores/${currentUser.uid}`).push();
+
+                        // Setando id, id_user e nome.
+                        novoJogador['id'] = snap.key;
+                        novoJogador['id_user'] = currentUser.uid;
+                        const { user } = getState().user;
+                        if (user.email === null) {
+                            novoJogador['nome'] = user.displayName;
+                        } else {
+                            novoJogador['nome'] = user.email;
+                        }
+
+                        // Insendo no firebase.
+                        await snap.ref.set(novoJogador);
+
+                        // enviando para o reducer de Jogador.
+                        const action = setJogador(novoJogador);
                         dispatch(action);
                         resolve();
                     }
                     reject();
                 });
-        })
+            })
     }
 }
 
 export const INITIAL_STATE = {
+    id: null,
+    id_user: null,
     nome: '',
     idade: '',
     comprometimento: 100,
@@ -85,5 +91,6 @@ export const INITIAL_STATE = {
     futebol: {
         direcao_chute: 'Ambidestro',
         posicao: 'Goleiro'
-    }
+    },
+    grupos: {}
 }

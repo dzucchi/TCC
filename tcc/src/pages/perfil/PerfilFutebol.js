@@ -1,11 +1,15 @@
 import React from "react";
+
 import { ScrollView, StyleSheet, View, Text, Button, ActivityIndicator, FlatList } from "react-native";
+
 import { connect } from "react-redux";
-import { watchJogador, watchGrupos, setField, setSelectedGrupo } from "../../actions";
 
 import { AgeFromDateString } from "age-calculator";
 
+import { watchJogador, watchGrupos, setField, setSelectedGrupo } from "../../actions";
+
 import AddGrupoItem from "../../components/AddGrupoItem";
+
 import GrupoItem from "../../components/GrupoItem";
 
 class PerfilFutebol extends React.Component {
@@ -23,14 +27,14 @@ class PerfilFutebol extends React.Component {
     }
 
     getName() {
-        const { user } = this.props.user;
+        const { user, jogador } = this.props.user;
         const { setField } = this.props;
-        if (user.email === null) {
-            setField('nome', user.displayName);
-            return user.displayName;
+        if (jogador.nome === '') {
+            if (user.email === null) {
+                setField('nome', user.displayName);
+            }
+            setField('nome', user.email);
         }
-        setField('nome', user.email);
-        return user.email;
     }
 
     listarGrupos(grupos, navigation) {
@@ -69,7 +73,7 @@ class PerfilFutebol extends React.Component {
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={styles.nome}>
-                        {jogador.nome === '' ? this.getName() : jogador.nome}
+                        {jogador.nome}
                     </Text>
                     <Text style={styles.idade}>
                         {jogador.idade === '' ? '' : this.formatarData(jogador.idade) + ' anos'}

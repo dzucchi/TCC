@@ -12,17 +12,19 @@ export const watchGrupos = () => {
             .database()
             .ref(`/grupos`)
             .on('value', snapshot => {
-                const grupoKeys = Object.keys(getState().jogador.grupos);
-                let grupos = {}
-                const grupoKeysBaseON = Object.keys(snapshot.val());
-                grupoKeysBaseON.forEach(function(keyON) {                 
-                    grupoKeys.forEach(function(key) {
-                        if (key === keyON) {
-                            grupos = [...grupos, snapshot.val()[keyON]]
-                        }
+                if (snapshot.val() !== null) {
+                    const grupoKeys = Object.keys(getState().jogador.grupos);
+                    let grupos = {};
+                    const grupoKeysBaseON = Object.keys(snapshot.val());
+                    grupoKeysBaseON.forEach(function(keyON) {              
+                        grupoKeys.forEach(function(key) {
+                            if (key === keyON) {
+                                grupos = [...grupos, snapshot.val()[keyON]]
+                            }
+                        })
                     })
-                })
-                dispatch(setGrupos(grupos))
+                    dispatch(setGrupos(grupos))
+                }
             });
     }
 }

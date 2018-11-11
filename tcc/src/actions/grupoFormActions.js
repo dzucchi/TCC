@@ -34,16 +34,26 @@ export const saveGrupo = grupo => {
         } else {
             grupo.id_lider = currentUser.uid;
             grupo.jogadores[currentUser.uid] = true;
-            const snap = await db.ref(`/grupos`).push(grupo);
-            const keyGrupoInserido = snap.key;
+            const snap = db.ref(`/grupos`).push();
+            const key = snap.key;
+            grupo.id = key;
 
-            const { grupos } = getState().jogador;
-            grupos[keyGrupoInserido] = true;
+            let gruposAtualizado;
+            if (getState().jogador.grupos) {
+                const { grupos } = getState().jogador;
+                grupos[key] = true;
+                gruposAtualizado = grupos;
+            } else {
+                const grupos = {[key]: true}
+                gruposAtualizado = grupos; 
+            }
 
             await db
                 .ref(`/jogadores/${currentUser.uid}/${getState().jogador.id}/`)
                 .child('grupos')
-                .set(grupos);
+                .set(gruposAtualizado);
+
+            await snap.ref.set(grupo);
         } 
         dispatch(grupoSaveSuccess())   
     }

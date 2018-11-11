@@ -25,9 +25,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import FormRow from "../../components/FormRow";
 
-import { setFieldGrupo, saveGrupo, setWholeGrupo, resetForm } from "../../actions";
-
 import LocationItem from "../../components/LocationItem";
+
+import { setFieldGrupo, saveGrupo, setSelectedGrupo, setWholeGrupo, resetForm } from "../../actions";
 
 class GrupoFutebolForm extends React.Component {
     constructor(props) {
@@ -37,8 +37,6 @@ class GrupoFutebolForm extends React.Component {
             isLoading: false,
             isVisible1: false,
             isVisible2: false,
-            chosenDate: '',
-            checked: false,
         }
     }
 
@@ -62,8 +60,9 @@ class GrupoFutebolForm extends React.Component {
                 onPress={async() => {
                     this.setState({ isLoading: true })
                     try {
-                        const { saveGrupo, grupoForm, navigation } = this.props;
+                        const { saveGrupo, setSelectedGrupo, grupoForm, navigation } = this.props;
                         await saveGrupo(grupoForm);
+                        await setSelectedGrupo(grupoForm);
                         navigation.navigate('Main');
                     } catch (error) {
                         Alert.alert('Ops.. Erro :(', error.message)
@@ -166,7 +165,7 @@ class GrupoFutebolForm extends React.Component {
                                                 inputValue={grupoForm.endereco}
                                                 onPress={() => {
                                                     inputValue = grupoForm.endereco;
-                                                    clearSearchs()
+                                                    clearSearchs();
                                                 }}
                                             />
                                         ))}
@@ -274,6 +273,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     setFieldGrupo,
     saveGrupo,
+    setSelectedGrupo,
     setWholeGrupo,
     resetForm,
 }

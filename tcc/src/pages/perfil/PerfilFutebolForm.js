@@ -27,7 +27,6 @@ class PerfilFutebolForm extends React.Component {
         this.state = {
             isLoading: false,
             isVisible: false,
-            chosenDate: '',
         }
     }
 
@@ -89,7 +88,6 @@ class PerfilFutebolForm extends React.Component {
                     <TouchableOpacity onPress={this.showPicker}>
                         <Text style={styles.labelfixed}>Data de nascimento</Text>
                         <Text>
-                            
                             {jogadorForm.idade}
                         </Text>
                     </TouchableOpacity>

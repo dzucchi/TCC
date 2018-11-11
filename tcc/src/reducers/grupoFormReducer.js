@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     estagio: 0,
     categoria: 'Society',
     jogadores: {},
+    partidas:{},
     endereco: '',
     localizacao: {
         lat: 0,
@@ -25,7 +26,7 @@ export default function (state = INITIAL_STATE, action) {
             newState[action.field] = action.value;
             return newState;
         case SET_WHOLE_GRUPO:
-            return action.serie;
+            return action.grupo;
         case RESET_FORM:
         case GRUPO_SAVED_SUCCESS:
             return INITIAL_STATE;    
