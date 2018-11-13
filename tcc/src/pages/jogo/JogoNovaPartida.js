@@ -107,11 +107,9 @@ class JogoNovaPartida extends React.Component {
                     try {
                         const { savePartida, partida, navigation } = this.props;
                         await savePartida(partida);
-                        navigation.navigate('JogoConfirmaPresenca');
+                        navigation.replace('JogoConfirmaPresenca');
                     } catch (error) {
                         Alert.alert('Ops.. Erro :(', error.message)
-                    } finally {
-                        this.setState({ isLoading: false })
                     }
                 }} />
             );

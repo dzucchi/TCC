@@ -103,6 +103,7 @@ class PerfilFutebol extends React.Component {
                     </Text>
                     <View style={{backgroundColor: 'gray', flex: 1, height: 1, marginLeft: 10}} />
                 </View>
+
                 {this.listarGrupos(grupos, navigation)}
 
             </ScrollView>

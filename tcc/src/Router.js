@@ -28,6 +28,7 @@ import GrupoFutebolForm from "./pages/grupo/GrupoFutebolForm";
 import Jogo from "./pages/jogo/Jogo";
 import JogoNovaPartida from "./pages/jogo/JogoNovaPartida";
 import JogoConfirmaPresenca from "./pages/jogo/JogoConfirmaPresenca";
+import JogoConfirmaPresencaADM from "./pages/jogo/JogoConfirmaPresencaADM";
 import Financeiro from "./pages/jogo/Financeiro";
 import Historico from "./pages/jogo/Historico";
 import GrupoFutebolDetail from "./pages/grupo/GrupoFutebolDetail";
@@ -212,6 +213,9 @@ export default StacksOverTabs = createStackNavigator({
 	},
 	JogoConfirmaPresenca: {
 		screen: JogoConfirmaPresenca
+	},
+	JogoConfirmaPresencaADM: {
+		screen: JogoConfirmaPresencaADM
 	},
 	GrupoFutebolForm: {
 		screen: GrupoFutebolForm

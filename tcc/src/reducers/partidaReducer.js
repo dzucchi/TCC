@@ -12,7 +12,8 @@ const INITIAL_STATE = {
     },
     valor_gastos: '',
     times: {},
-    jogadores: {}
+    jogadores_presentes: {},
+    ativa: true,
 }
 
 export default function(state = INITIAL_STATE, action) {

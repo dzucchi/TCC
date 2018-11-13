@@ -6,6 +6,7 @@ import gruposReducer from "./gruposReducer";
 import grupoFormReducer from "./grupoFormReducer";
 import grupoSelectedReducer from "./grupoSelectedReducer";
 import partidaReducer from "./partidaReducer";
+import jogadoresFromSeletedGrupoReducer from "./jogadoresFromSeletedGrupoReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
     grupoForm: grupoFormReducer,
     grupoSelected: grupoSelectedReducer,
     partida: partidaReducer,
+    jogadoresFromSeletedGrupo: jogadoresFromSeletedGrupoReducer,
 });

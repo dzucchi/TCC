@@ -59,6 +59,8 @@ export const watchJogador = () => {
                         // Setando id, id_user e nome.
                         novoJogador['id'] = snap.key;
                         novoJogador['id_user'] = currentUser.uid;
+
+// AQUI DA ERRO AO CRIAR PELO E-MAIL PELA 1° VEZ..
                         const { user } = getState().user;
                         if (user.email === null) {
                             novoJogador['nome'] = user.displayName;

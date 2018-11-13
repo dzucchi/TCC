@@ -4,8 +4,17 @@ import { StyleSheet, View, Image, Button, Text } from "react-native";
 import { connect } from "react-redux";
 
 class Jogo extends React.Component {
+
+    componentWillMount() {
+        const { grupoSelected, navigation } = this.props;
+        if (grupoSelected.estagio === 1) {
+            navigation.replace('JogoConfirmaPresenca')
+        }
+    }
+
     renderButton() {
         const { grupoSelected, jogador, navigation } = this.props;
+
         if (grupoSelected.id_lider === jogador.id_user) {
             return (
                 <View style={{paddingTop: 20}}>
@@ -25,20 +34,27 @@ class Jogo extends React.Component {
 
     render() {
         const { grupoSelected } = this.props;
-        if (grupoSelected.estagio === 0) {
+
+        if (grupoSelected.estagio !== 0) {
             return (
-                <View style={styles.card}>
-                    <Image
-                        source={require('../../../resources/soccer-ball-variant.png')}
-                        style={styles.image}
-                        aspectRatio={1}
-                        resizeMode="cover"
-                    />
-                    { this.renderButton() }
+                <View>
+                    
                 </View>
-            );
+            )
         }
+        return (
+            <View style={styles.card}>
+                <Image
+                    source={require('../../../resources/soccer-ball-variant.png')}
+                    style={styles.image}
+                    aspectRatio={1}
+                    resizeMode="cover"
+                />
+                { this.renderButton() }
+            </View>
+        );
     }
+    
 }
 
 const styles = StyleSheet.create({
@@ -61,6 +77,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);
