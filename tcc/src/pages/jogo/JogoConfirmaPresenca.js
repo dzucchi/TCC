@@ -9,6 +9,13 @@ import { watchJogadoresFromSelectedGrupo, presenceUpdate } from "../../actions";
 import JogadorItem from "../../components/JogadorItem";
 
 class JogoConfirmaPresenca extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: false,
+        }
+    }
 
     componentDidMount() {
         this.props.watchJogadoresFromSelectedGrupo();
@@ -19,7 +26,9 @@ class JogoConfirmaPresenca extends React.Component {
             <View style={{paddingTop: 20}}>
                 <Button
                     title='Confirmar presença' 
-                    onPress={() => this.props.presenceUpdate()} />
+                    onPress={async () => {
+                        await this.props.presenceUpdate();
+                    }} />
             </View>
         );
     }

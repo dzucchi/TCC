@@ -2,8 +2,6 @@ import React from "react";
 
 import { View, Text, StyleSheet, Image } from "react-native";
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 const JogadorItem = ({ jogador }) => (
     <View style={[styles.line, styles.container]}>
         <View>

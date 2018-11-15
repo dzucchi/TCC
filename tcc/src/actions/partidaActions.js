@@ -22,6 +22,8 @@ const setJogadoresFromSelectedGrupo = jogadores => ({
 
 export const watchJogadoresFromSelectedGrupo = () => {
     return (dispatch, getState) => {
+
+        // PEGAR TODOS OS JOGADORES DO GRUPO SELECIONADO.
         firebase
             .database()
             .ref(`/jogadores`)
@@ -38,8 +40,8 @@ export const watchJogadoresFromSelectedGrupo = () => {
                 });
                 
 
+                // PEGAR A CHAVE DE TODOS OS JOGADORES PRESENTES.
                 let jogadoresPresentesKeys;
-
                 firebase
                     .database()
                     .ref(`grupos/${getState().grupoSelected.id}/partidas`)
@@ -52,19 +54,20 @@ export const watchJogadoresFromSelectedGrupo = () => {
                             }
                         });
                     });
-
+                
                 let filtro = {};
                 jogadores.forEach(jogador => {
                     let jogadorFiltrado = jogador[Object.keys(jogador)[0]];
                     jogadorFiltrado.presenca_confirmada = false;
-                    jogadoresPresentesKeys.forEach((id_user_presente) => {
-                        if (id_user_presente === jogadorFiltrado.id_user) {
-                            jogadorFiltrado.presenca_confirmada = true;
-                        }
-                    });
+                    if (jogadoresPresentesKeys) {
+                        jogadoresPresentesKeys.forEach((id_user_presente) => {
+                            if (id_user_presente === jogadorFiltrado.id_user) {
+                                jogadorFiltrado.presenca_confirmada = true;
+                            }
+                        });
+                    }
                     filtro = [...filtro, jogadorFiltrado];
                 });
-
                 dispatch(setJogadoresFromSelectedGrupo(filtro));
             });
     }
@@ -72,22 +75,54 @@ export const watchJogadoresFromSelectedGrupo = () => {
 
 export const presenceUpdate = () => {
     return (dispatch, getState) => {
-        try {
-            firebase
-                .database()
-                .ref(`grupos/${getState().grupoSelected.id}/partidas`)
-                .once('value', snapshot => {
-                    snapshot.forEach((partida) => {
-                        if (partida.val().ativa) {
-                            if (partida.val().jogadores_presentes) {
-                                jogadoresPresentesKeys = Object.keys(partida.val().jogadores_presentes);
+        return new Promise((resolve, reject) => {
+            try {
+                // PEGAR A KEY DA PARTIDA ATIVA.
+                let partidaAtivaKey;
+                firebase
+                    .database()
+                    .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+                    .once('value', snapshot => {
+                        snapshot.forEach((partida) => {
+                            if (partida.val().ativa) {
+                                partidaAtivaKey = partida.key;
                             }
-                        }
+                        });
                     });
+                
+                // id_user DO USUÁRIO LOGADO.
+                const jogadorId = getState().jogador.id_user;
+
+                // PEGAR O INDEX DO JOGADOR LOGADO.
+                let jogadorIndex;
+                const { jogadoresFromSeletedGrupo } = getState();
+                jogadoresFromSeletedGrupo.forEach((jogador, index) => {
+                    if (jogador.id_user === jogadorId) {   
+                        jogadorIndex = index;
+                    }
                 });
-        } catch(error) {
-            console.error(error);
-        }
+
+                // VERIFICAR SE EXISTE O NODE 'jogadores_presentes'.
+                const ref = firebase.database().ref(`grupos/${getState().grupoSelected.id}/partidas/${partidaAtivaKey}/jogadores_presentes`)
+                ref
+                    .child(`${jogadorId}`)
+                    .once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        ref.child(`${jogadorId}`).remove();
+                        //dispatch(setFieldPartida('presenca_confirmada', false));
+                    } else {
+                        let obj = {};
+                        obj[jogadorId] = true;
+                        ref.update(obj);
+                        //dispatch(setFieldPartida('presenca_confirmada', true));
+                    }
+                });
+                resolve();
+            } catch (error) {
+                console.error(error);
+                reject();      
+            }
+        })
     }
 }
 
