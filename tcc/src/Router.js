@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Login
 import LoginPage from "./pages/LoginPage";
+import CreateAccount from "./pages/CreateAccount";
 
 // Perfil
 import PerfilFutebol from "./pages/perfil/PerfilFutebol";
@@ -177,6 +178,12 @@ export default StacksOverTabs = createStackNavigator({
 		screen: LoginPage,
 		navigationOptions: {
 			title: 'Kevin',
+		}
+	},
+	CreateAccount: {
+		screen: CreateAccount,
+		navigationOptions: {
+			title: 'Criar conta',
 		}
 	},
 	Main: {

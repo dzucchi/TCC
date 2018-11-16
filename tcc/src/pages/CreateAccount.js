@@ -1,34 +1,24 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, Alert } from "react-native";
-import firebase from "firebase";
 
-import { tryLogin, tryLoginWithFacebook } from "../actions";
+import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator } from "react-native";
+
+import { createAccount } from "../actions";
+
 import { connect } from "react-redux";
 
 import FormRow from '../components/FormRow';
 
-class LoginPage extends React.Component {
+class CreateAccount extends React.Component {
     constructor(props) {
         super(props);
         
         this.state = {
             mail: '',
             password: '',
+            repassword: '',
             isLoading: false,
             message: '',
         }
-    }
-
-    componentDidMount() {
-        const config = {
-            apiKey: "AIzaSyBDKYo0euOjNV3KwuuVD__FJpntVkWQkfE",
-            authDomain: "furb-tcc.firebaseapp.com",
-            databaseURL: "https://furb-tcc.firebaseio.com",
-            projectId: "furb-tcc",
-            storageBucket: "furb-tcc.appspot.com",
-            messagingSenderId: "112702997561"
-        };
-        firebase.initializeApp(config);
     }
 
     onChangeHandler(field, value) {
@@ -37,11 +27,19 @@ class LoginPage extends React.Component {
         });
     }
 
-    tryLogin() {
+    createAccount() {
         this.setState({ isLoading: true, message: '' });
-        const { mail: email, password } = this.state;
+        const { mail: email, password, repassword } = this.state;
 
-        this.props.tryLogin({ email, password })
+        if (password !== repassword) {
+            this.setState({ 
+                isLoading: false, 
+                message: this.getMessageByErrorCode('auth/password-not-equal') 
+            });
+            return;
+        }
+
+        this.props.createAccount({ email, password })
             .then((user) => {
                 if (user) {
                     this.props.navigation.replace('Main');
@@ -60,29 +58,18 @@ class LoginPage extends React.Component {
             });
     }
 
-    async logInFacebook() {
-        const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('359751571431590', {
-            permissions: ['public_profile'],
-        });
-        this.props.tryLoginWithFacebook({ type, token })
-            .then((user) => {
-                if (user) {
-                    this.props.navigation.replace('Main');
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
     getMessageByErrorCode(errorCode) {
         switch (errorCode) {
-            case 'auth/wrong-password':
-                return 'Usuário ou Senha inválido';
-            case 'auth/user-not-found':
-                return 'Usuário não encontrado';
+            case 'auth/email-already-in-use':
+                return 'E-mail já em uso';
+            case 'auth/operation-not-allowed':
+                return 'Usuário já em uso';
             case 'auth/invalid-email':
-                return 'E-mail inválido';
+                return 'E-mail inválido'; 
+            case 'auth/weak-password':
+                return 'Senha muito fraca'  
+            case 'auth/password-not-equal':
+                return 'As senhas devem ser iguais'
             default :
                 return 'Erro desconhecido';
         }
@@ -104,26 +91,12 @@ class LoginPage extends React.Component {
             return <ActivityIndicator />;
         return (
             <View>
-                <View>
-                    <Button
-                        title='Entrar'
-                        onPress={() => this.tryLogin()} />
-                </View>
                 <View style = {styles.margin20Top}>
                     <Button
                         title='Criar conta'
-                        onPress={() => this.props.navigation.replace('CreateAccount')} />
+                        onPress={() => this.createAccount()} />
                 </View>
             </View>
-        );
-    }
-
-    renderButtonFacebook() {
-        return (
-            <Button 
-                title='Logar com Facebook'
-                color='#3b5998'
-                onPress={() => this.logInFacebook()}/>
         );
     }
 
@@ -138,7 +111,8 @@ class LoginPage extends React.Component {
                         onChangeText={value => this.onChangeHandler('mail', value)}
                     />
                 </FormRow>
-                <FormRow last>
+
+                <FormRow>
                     <TextInput 
                         style={styles.input}
                         placeholder="******"
@@ -148,16 +122,18 @@ class LoginPage extends React.Component {
                     />
                 </FormRow>
 
+                <FormRow last>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="******"
+                        secureTextEntry
+                        value={this.state.repassword}
+                        onChangeText={value => this.onChangeHandler('repassword', value)}
+                    />
+                </FormRow>
+
                 { this.renderButton() }
                 { this.renderMessage() }
-
-                <View style={styles.label}>
-                    <Text>
-                        Ou conecte-se com sua rede social
-                    </Text>
-                </View>
-                
-                { this.renderButtonFacebook() }
 
             </View>
         )
@@ -187,8 +163,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = {
-    tryLogin,
-    tryLoginWithFacebook,
+    createAccount,
 }
 
-export default connect(null, mapDispatchToProps)(LoginPage)
+export default connect(null, mapDispatchToProps)(CreateAccount)
