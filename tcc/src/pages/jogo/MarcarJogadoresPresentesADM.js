@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import PlayerBeingItem from "../../components/PlayerBeingItem";
 
-import { getJogadoresConfirmados, setFieldJogadorPresente } from "../../actions";
+import { getJogadoresConfirmados, setFieldJogadorPresente, updateJogadoresPresentes } from "../../actions";
 
 class MarcarJogadoresPresentesADM extends React.Component {
     constructor(props) {
@@ -14,7 +14,6 @@ class MarcarJogadoresPresentesADM extends React.Component {
 
         this.state = {
             isLoading: false,
-            checked: false,
         }
     }
 
@@ -36,6 +35,7 @@ class MarcarJogadoresPresentesADM extends React.Component {
                             },{
                                 text: 'Sim',
                                 onPress: async () => {
+                                    await this.props.updateJogadoresPresentes();
                                     this.props.onPress();
                                 },
                             }],
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
     getJogadoresConfirmados,
     setFieldJogadorPresente,
+    updateJogadoresPresentes,
 }
 
 const mapStateToProps = state => {

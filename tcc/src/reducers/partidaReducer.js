@@ -13,6 +13,7 @@ const INITIAL_STATE = {
     valor_gastos: '',
     times: {},
     jogadores_presentes: {},
+    times: {},
     ativa: true,
 }
 

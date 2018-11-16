@@ -49,7 +49,6 @@ export const watchJogadoresFromSelectedGrupo = () => {
                     });
                 });
                 
-
                 // PEGAR A CHAVE DE TODOS OS JOGADORES PRESENTES.
                 let jogadoresPresentesKeys;
                 firebase
@@ -232,5 +231,40 @@ export const getJogadoresConfirmados = () => {
                 }
                 dispatch(setJogadoresConfirmados(jogadoresConfirmados));
             });
+    }
+}
+
+export const updateJogadoresPresentes = () => {
+    return (dispatch, getState) => {
+        return new Promise((resolve, reject) => {
+            try {
+                // PEGAR A KEY DA PARTIDA ATIVA.
+                let partidaAtivaKey;
+                firebase
+                    .database()
+                    .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+                    .once('value', snapshot => {
+                        snapshot.forEach((partida) => {
+                            if (partida.val().ativa) {
+                                partidaAtivaKey = partida.key;
+                            }
+                        });
+                    });
+
+                // VERIFICAR SE EXISTE O NODE 'jogadores_presentes'.
+                const jogadoresKeys = getState().jogadoresConfirmados;
+                jogadoresKeys.forEach((jogador) => {
+                    firebase
+                        .database()
+                        .ref(`grupos/${getState().grupoSelected.id}/partidas/${partidaAtivaKey}/jogadores_presentes`)
+                        .child(`${jogador.id_user}`)
+                        .set(jogador.jogador_presente);
+                });
+                resolve();
+            } catch (error) {
+                console.error(error);
+                reject();      
+            }
+        })
     }
 }
