@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, View, Text, FlatList, Button, ActivityIndicator } from "react-native";
+import { StyleSheet, View, FlatList, Button, ActivityIndicator, Alert } from "react-native";
 
 import { connect } from "react-redux";
 
@@ -33,6 +33,34 @@ class JogoConfirmaPresenca extends React.Component {
         );
     }
 
+    renderIniciarJogoButton() {
+        const { grupoSelected, jogador } = this.props;
+
+        if (grupoSelected.id_lider === jogador.id_user) {
+            return (
+                <View style={{paddingTop: 10}}>
+                    <Button
+                        title='Iniciar Jogo' 
+                        onPress={() => {
+                            Alert.alert(
+                                'Iniciar jogo', 
+                                `Deseja encerrar o periodo de confirmação da presença dos jogadores?`,
+                                [{
+                                    text: 'Não',
+                                },{
+                                    text: 'Sim',
+                                    onPress: async () => {
+                                        this.props.onPress();
+                                    },
+                                }],
+                                { cancelable: false }
+                            )
+                        }} />
+                </View>
+            );
+        }
+    }
+
     render() {
         const { jogadoresFromSeletedGrupo } = this.props;
 
@@ -53,6 +81,7 @@ class JogoConfirmaPresenca extends React.Component {
                 />
 
                 { this.renderConfirmPresenceButton() }
+                { this.renderIniciarJogoButton() }
 
             </View>
         );
@@ -75,6 +104,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
+        grupoSelected: state.grupoSelected,
+        jogador: state.jogador,
         jogadoresFromSeletedGrupo: state.jogadoresFromSeletedGrupo,
     }
 }

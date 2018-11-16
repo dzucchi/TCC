@@ -10,6 +10,7 @@ import {
     KeyboardAvoidingView,
     ActivityIndicator,
     Button,
+    Alert,
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -105,9 +106,9 @@ class JogoNovaPartida extends React.Component {
                 onPress={async() => {
                     this.setState({ isLoading: true })
                     try {
-                        const { savePartida, partida, navigation } = this.props;
+                        const { savePartida, partida, onPress } = this.props;
                         await savePartida(partida);
-                        navigation.replace('JogoConfirmaPresenca');
+                        onPress();
                     } catch (error) {
                         Alert.alert('Ops.. Erro :(', error.message)
                     }

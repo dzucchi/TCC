@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class JogoConfirmaPresencaADM extends React.Component {
+class ListaDosTimes extends React.Component {
     render() {
 
         return (
             <View style={styles.container}>
-                <Text>JogoConfirmaPresencaADM</Text>
+                <Text>ListaDosTimes</Text>
             </View>
         );
     }
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default JogoConfirmaPresencaADM;
+export default ListaDosTimes;

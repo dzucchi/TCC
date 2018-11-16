@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
         elevation: 1,
 
         paddingTop: 3,
-        paddingBottom: 3,
-        
+        paddingBottom: 3,     
     },
     line: {
         flexDirection: 'row',

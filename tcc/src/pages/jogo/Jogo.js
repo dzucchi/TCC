@@ -1,57 +1,115 @@
 import React from "react";
+
 import { StyleSheet, View, Image, Button, Text } from "react-native";
 
 import { connect } from "react-redux";
 
+import JogoNovaPartida from "./JogoNovaPartida";
+
+import JogoConfirmaPresenca from "./JogoConfirmaPresenca";
+
+import MarcarJogadoresPresentesADM from "./MarcarJogadoresPresentesADM";
+
+import ListaDosTimes from "./ListaDosTimes";
+
+import { setEstagio } from "../../actions";
+
 class Jogo extends React.Component {
-
-    componentWillMount() {
-        const { grupoSelected, navigation } = this.props;
-        if (grupoSelected.estagio === 1) {
-            navigation.replace('JogoConfirmaPresenca')
-        }
-    }
-
-    renderButton() {
-        const { grupoSelected, jogador, navigation } = this.props;
+    renderAgendarJogoButton() {
+        const { grupoSelected, jogador } = this.props;
 
         if (grupoSelected.id_lider === jogador.id_user) {
             return (
                 <View style={{paddingTop: 20}}>
                     <Button
                         title='Agendar jogo' 
-                        onPress={() => navigation.navigate('JogoNovaPartida')} />
+                        onPress={() => {
+                            grupoSelected.estagio = 1;             
+                            this.forceUpdate();
+                        }} />
                 </View>
             );
         } else {
             return (
-                <View style={{paddingTop: 20}}>
-                    <Text>Nenhum jogo marcado</Text>
+                <View style={styles.card}>
+                    <Text style={{fontSize: 25}}>Nenhum jogo marcado</Text>
                 </View>
             )
         }
     }
 
-    render() {
-        const { grupoSelected } = this.props;
+    renderConfigButton() {
+        const { navigation } = this.props;
+        return (
+            <View style={{paddingTop: 10}}>
+                <Button
+                    title='Configurações'
+                    onPress={() => navigation.navigate('GrupoFutebolDetail')} />
+            </View>
+        );
+    }
 
-        if (grupoSelected.estagio !== 0) {
+    render() {
+        const { grupoSelected, setEstagio } = this.props;
+
+        if (grupoSelected.estagio === 1) {
             return (
-                <View>
-                    
-                </View>
+                <JogoNovaPartida 
+                    onPress={() => {
+                        grupoSelected.estagio = 2;
+                        this.forceUpdate();
+                    }} />
+            );
+        }
+
+        if (grupoSelected.estagio === 2) {
+            return (
+                <JogoConfirmaPresenca
+                    onPress={ async () => {
+                        await setEstagio(3);
+                        grupoSelected.estagio = 3;
+                        this.forceUpdate();
+                    }} />
             )
         }
-        return (
-            <View style={styles.card}>
-                <Image
-                    source={require('../../../resources/soccer-ball-variant.png')}
-                    style={styles.image}
-                    aspectRatio={1}
-                    resizeMode="cover"
-                />
-                { this.renderButton() }
+
+        if (grupoSelected.estagio === 3) {
+            return (
+                <MarcarJogadoresPresentesADM
+                    onPress={ async () => {
+                        await setEstagio(4);
+                        grupoSelected.estagio = 4;
+                        this.forceUpdate();
+                    }} />
+            )
+        }
+
+        if (grupoSelected.estagio === 4) {
+            return (
+                <ListaDosTimes
+                    onPress={ async () => {
+                        await setEstagio(5);
+                        grupoSelected.estagio = 5;
+                        this.forceUpdate();
+                    }} />
+            )
+        }
+
+        return (   
+            <View>
+                <View style={styles.card}>
+                    <Image
+                        source={require('../../../resources/soccer-ball-variant.png')}
+                        aspectRatio={1}
+                        resizeMode="cover"
+                    />
+                </View>
+                <View style={{padding: 10}}>
+                    { this.renderAgendarJogoButton() }
+                    { this.renderConfigButton() }
+                </View>
             </View>
+            
         );
     }
     
@@ -59,13 +117,9 @@ class Jogo extends React.Component {
 
 const styles = StyleSheet.create({
     card: {
-        flex: 1,
+        paddingTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    image: {
-        width: '70%',
-        height: '70%',
     },
 })
 
@@ -77,7 +131,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    
+    setEstagio,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

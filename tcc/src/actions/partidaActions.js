@@ -9,6 +9,16 @@ export const setFieldPartida = (field, value) => {
     }
 }
 
+export const SET_FIELD_PARTIDA_GRUPO = 'SET_FIELD_PARTIDA_GRUPO';
+export const setFieldPartidaGrupo = (index, field, value) => {
+    return {
+        type: SET_FIELD_PARTIDA_GRUPO,
+        index,
+        field,
+        value,
+    }
+}
+
 export const PARTIDA_SAVED_SUCCESS = 'PARTIDA_SAVED_SUCCESS';
 const partidaSaveSuccess = () => ({
     type: PARTIDA_SAVED_SUCCESS
@@ -109,12 +119,12 @@ export const presenceUpdate = () => {
                     .once('value', snapshot => {
                     if (snapshot.exists()) {
                         ref.child(`${jogadorId}`).remove();
-                        //dispatch(setFieldPartida('presenca_confirmada', false));
+                        dispatch(setFieldPartidaGrupo(jogadorIndex, 'presenca_confirmada', false));
                     } else {
                         let obj = {};
                         obj[jogadorId] = true;
                         ref.update(obj);
-                        //dispatch(setFieldPartida('presenca_confirmada', true));
+                        dispatch(setFieldPartidaGrupo(jogadorIndex, 'presenca_confirmada', true));
                     }
                 });
                 resolve();
@@ -140,8 +150,87 @@ export const savePartida = partida => {
             .database()
             .ref(`/grupos/${idSeletedGrupo}`)
             .child('estagio')
-            .set(1);
+            .set(2);
 
         dispatch(partidaSaveSuccess());  
     }
 };
+
+export const setEstagio = estagio => {
+    return async (dispatch, getState) => {
+        const idSeletedGrupo = getState().grupoSelected.id;
+        firebase
+            .database()
+            .ref(`/grupos/${idSeletedGrupo}`)
+            .child('estagio')
+            .set(estagio);
+    }
+}
+
+export const SET_FIELD_JOGADOR_PRESENTE = 'SET_FIELD_JOGADOR_PRESENTE';
+export const setFieldJogadorPresente = (index, field, value) => {
+    return {
+        type: SET_FIELD_JOGADOR_PRESENTE,
+        index,
+        field,
+        value,
+    }
+}
+
+export const SET_JOGADORES_CONFIRMADOS = 'SET_JOGADORES_CONFIRMADOS';
+const setJogadoresConfirmados = jogadores => ({
+    type: SET_JOGADORES_CONFIRMADOS,
+    jogadores
+});
+
+export const getJogadoresConfirmados = () => {
+    return (dispatch, getState) => {
+
+        // PEGAR TODOS OS JOGADORES DO GRUPO SELECIONADO.
+        firebase
+            .database()
+            .ref(`/jogadores`)
+            .once('value', snapshot => {
+                let jogadores = {}
+                const jogadoresKeys = Object.keys(getState().grupoSelected.jogadores);
+                const jogadoresKeysBaseON = Object.keys(snapshot.val());
+                jogadoresKeysBaseON.forEach((keyON) => {
+                    jogadoresKeys.forEach((key) => {
+                        if (key === keyON) {
+                            jogadores = [ ...jogadores, snapshot.val()[keyON]];
+                        }
+                    });
+                });
+                
+                // PEGAR A CHAVE DE TODOS OS JOGADORES PRESENTES.
+                let jogadoresPresentesKeys;
+                firebase
+                    .database()
+                    .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+                    .once('value', snapshot => {
+                        snapshot.forEach((partida) => {
+                            if (partida.val().ativa) {
+                                if (partida.val().jogadores_presentes) {
+                                    jogadoresPresentesKeys = Object.keys(partida.val().jogadores_presentes);
+                                }
+                            }
+                        });
+                    });
+                
+                // FAZER O DISPATCH DOS JOGADORES QUE CONFIRMARAM PRESENÇA.
+                let jogadoresConfirmados = {};
+                if (jogadoresPresentesKeys) {
+                    jogadores.forEach(jogador => {
+                        let jogadorFiltrado = jogador[Object.keys(jogador)[0]];
+                        jogadorFiltrado.jogador_presente = false;
+                        jogadoresPresentesKeys.forEach((id_user_presente) => {
+                            if (id_user_presente === jogadorFiltrado.id_user) {
+                                jogadoresConfirmados = [...jogadoresConfirmados, jogadorFiltrado];
+                            }
+                        });
+                    });
+                }
+                dispatch(setJogadoresConfirmados(jogadoresConfirmados));
+            });
+    }
+}
