@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, CheckBox, TouchableOpacity } from "react-native
 
 class PlayerBeingItem extends React.Component {
     render() {
-        const { jogador, onPress } = this.props;
+        const { jogador, onPress, jogador_escalado } = this.props;
 
         return (
             <TouchableOpacity
@@ -22,7 +22,7 @@ class PlayerBeingItem extends React.Component {
 
                     <View style={styles.checkbox}>
                         <CheckBox
-                            value={jogador.jogador_presente}
+                            value={jogador_escalado ? jogador.jogador_escalado : jogador.jogador_presente}
                             disabled={true}
                         />
                         <Text style={{marginTop: 5}}></Text>

@@ -4,11 +4,9 @@ import { StyleSheet, View, FlatList, Button, ActivityIndicator, Text, Alert } fr
 
 import { connect } from "react-redux";
 
-import PlayerBeingItem from "../../components/PlayerBeingItem";
+import { getTimes } from "../../actions";
 
-import { getJogadoresConfirmados, setFieldJogadorPresente } from "../../actions";
-
-class ListaDosTimes extends React.Component {
+class TimeLista extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,7 +16,7 @@ class ListaDosTimes extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getJogadoresConfirmados();
+        this.props.getTimes();
     }
 
     renderCriarTimeButton() {
@@ -26,15 +24,15 @@ class ListaDosTimes extends React.Component {
             <View style={{paddingTop: 20}}>
                 <Button
                     title='Criar time' 
-                    onPress={() => {}} />
+                    onPress={() => this.props.navigation.navigate('TimeForm')} />
             </View>
         );
     }
 
     render() {
-        const { jogadoresConfirmados, setFieldJogadorPresente } = this.props;
+        const { times } = this.props;
 
-        if (jogadoresConfirmados === null) {
+        if (times === null) {
             return <ActivityIndicator />;
         }
 
@@ -42,20 +40,13 @@ class ListaDosTimes extends React.Component {
             <View>
                 <View style={styles.titulo}>
                     <Text style={{fontSize: 30, color: 'gray'}}>
-                        Jogadores Presentes
+                        Times
                     </Text>
                 </View>
-
                 <FlatList
-                    data={jogadoresConfirmados}
-                    extraData={this.state.checked}
-                    renderItem={({ item, index }) => (
-                        <PlayerBeingItem 
-                            index={index} 
-                            jogador={item} 
-                            onPress={() => {
-                                setFieldJogadorPresente(index, 'jogador_presente', item.jogador_presente ? false : true);
-                            }} />
+                    data={times}
+                    renderItem={({ item }) => (
+                        <Text>{item.nome}</Text>
                     )}
                     keyExtractor={(item, id) => id.toString()}
                     ListHeaderComponent={props => (<View style={styles.marginTop} />)}
@@ -63,7 +54,7 @@ class ListaDosTimes extends React.Component {
                 />
 
                 { this.renderCriarTimeButton() }
-
+                
             </View>
         );
     }
@@ -85,14 +76,13 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = {
-    getJogadoresConfirmados,
-    setFieldJogadorPresente,
+    getTimes,
 }
 
 const mapStateToProps = state => {
     return {
-        jogadoresConfirmados: state.jogadoresConfirmados,
+        times: state.times,
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListaDosTimes);
+export default connect(mapStateToProps, mapDispatchToProps)(TimeLista);

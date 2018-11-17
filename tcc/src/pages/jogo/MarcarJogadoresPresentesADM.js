@@ -63,7 +63,6 @@ class MarcarJogadoresPresentesADM extends React.Component {
 
                 <FlatList
                     data={jogadoresConfirmados}
-                    extraData={this.state.checked}
                     renderItem={({ item, index }) => (
                         <PlayerBeingItem 
                             index={index} 

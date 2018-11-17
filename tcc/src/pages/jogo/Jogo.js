@@ -10,7 +10,7 @@ import JogoConfirmaPresenca from "./JogoConfirmaPresenca";
 
 import MarcarJogadoresPresentesADM from "./MarcarJogadoresPresentesADM";
 
-import ListaDosTimes from "./ListaDosTimes";
+import TimeLista from "./TimeLista";
 
 import { setEstagio } from "../../actions";
 
@@ -50,7 +50,7 @@ class Jogo extends React.Component {
     }
 
     render() {
-        const { grupoSelected, setEstagio } = this.props;
+        const { grupoSelected, setEstagio, navigation } = this.props;
 
         if (grupoSelected.estagio === 1) {
             return (
@@ -86,7 +86,8 @@ class Jogo extends React.Component {
 
         if (grupoSelected.estagio === 4) {
             return (
-                <ListaDosTimes
+                <TimeLista
+                    navigation={navigation}
                     onPress={ async () => {
                         await setEstagio(5);
                         grupoSelected.estagio = 5;

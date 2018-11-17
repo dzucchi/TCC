@@ -4,3 +4,4 @@ export * from "./gruposActions";
 export * from "./grupoFormActions";
 export * from "./grupoSelectedActions";
 export * from "./partidaActions";
+export * from "./timeActions";

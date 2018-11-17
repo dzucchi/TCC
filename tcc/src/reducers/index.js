@@ -8,6 +8,8 @@ import grupoSelectedReducer from "./grupoSelectedReducer";
 import partidaReducer from "./partidaReducer";
 import jogadoresFromSeletedGrupoReducer from "./jogadoresFromSeletedGrupoReducer";
 import jogadoresConfirmadosReducer from "./jogadoresConfirmadosReducer";
+import jogadoresDisponiveisTimeReducer from "./jogadoresDisponiveisTimeReducer";
+import timesReducer from "./timesReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -18,4 +20,6 @@ export default combineReducers({
     partida: partidaReducer,
     jogadoresFromSeletedGrupo: jogadoresFromSeletedGrupoReducer,
     jogadoresConfirmados: jogadoresConfirmadosReducer,
+    jogadoresDisponiveisTime: jogadoresDisponiveisTimeReducer,
+    times: timesReducer,
 });
