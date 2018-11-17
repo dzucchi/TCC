@@ -4,6 +4,8 @@ import { StyleSheet, View, FlatList, Button, ActivityIndicator, Text, Alert } fr
 
 import { connect } from "react-redux";
 
+import TimeItem from "../../components/TimeItem";
+
 import { getTimes } from "../../actions";
 
 class TimeLista extends React.Component {
@@ -29,6 +31,29 @@ class TimeLista extends React.Component {
         );
     }
 
+    renderRegistrarResultadoButton() {
+        return (
+            <View style={{paddingTop: 20}}>
+                <Button
+                    title='Registrar resultado'
+                    onPress={() => this.props.navigation.navigate('ResultadoForm')} 
+                />
+            </View>
+        );
+    }
+
+    renderEncerrarJogoButton() {
+        return (
+            <View style={{paddingTop: 20}}>
+                <Button
+                    title='Encerrar jogo' 
+                    onPress={() => {
+                        
+                    }}/>
+            </View>
+        );
+    }
+
     render() {
         const { times } = this.props;
 
@@ -46,7 +71,8 @@ class TimeLista extends React.Component {
                 <FlatList
                     data={times}
                     renderItem={({ item }) => (
-                        <Text>{item.nome}</Text>
+                        <TimeItem 
+                            time={item} />
                     )}
                     keyExtractor={(item, id) => id.toString()}
                     ListHeaderComponent={props => (<View style={styles.marginTop} />)}
@@ -69,7 +95,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         paddingTop: 10,
-        marginBottom: 20,
+        marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
     }

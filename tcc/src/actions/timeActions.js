@@ -166,15 +166,15 @@ export const getTimes = () => {
             });
 
         // LISTAR TODOS OS TIMES.
-        let times = [];
         firebase
             .database()
             .ref(`grupos/${getState().grupoSelected.id}/partidas/${partidaAtivaKey}/times`)
-            .once('value', snapshot => {
+            .on('value', async snapshot => {
+                let times = [];
                 snapshot.forEach((time) => {
-                    times = [ ...times, time ];
+                    times = [ ...times, time.val() ];
                 });
-                dispatch(setTimes(times));
+                await dispatch(setTimes(times));
             });
     }
 }

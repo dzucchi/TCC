@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, View, FlatList, Button, TextInput, ActivityIndicator } from "react-native";
+import { StyleSheet, View, FlatList, Button, TextInput, ActivityIndicator, Alert } from "react-native";
 
 import { connect } from "react-redux";
 
@@ -23,11 +23,14 @@ class TimeForm extends React.Component {
     }
 
     renderButton() {
+        if (this.state.isLoading)
+            return <ActivityIndicator />;
         return (
             <View style={{paddingTop: 20}}>
                 <Button
-                    title='Salvar' 
+                    title='Salvar'
                     onPress={ async () => {
+                        this.setState({ isLoading: true });
                         await this.props.saveTime(this.state.time_nome);
                         this.props.navigation.goBack();
                     }} />
@@ -42,10 +45,19 @@ class TimeForm extends React.Component {
     }
 
     render() {
-        const { jogadoresDisponiveisTime, setFieldJogadorDisponivel } = this.props;
+        const { jogadoresDisponiveisTime, setFieldJogadorDisponivel, navigation } = this.props;
 
         if (jogadoresDisponiveisTime === null) {
             return <ActivityIndicator />;
+        }
+
+        if (this.props.jogadoresDisponiveisTime.length === 0) {
+            Alert.alert(
+                'Criar Time',
+                'Não há jogadores disponíveis para um novo time.',
+                [{ text: 'OK', onPress: () => navigation.goBack() }],
+                { cancelable: false }
+              )
         }
 
         return (
