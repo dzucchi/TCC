@@ -31,6 +31,7 @@ import Financeiro from "./pages/jogo/Financeiro";
 import Historico from "./pages/jogo/Historico";
 import GrupoFutebolDetail from "./pages/grupo/GrupoFutebolDetail";
 import TimeForm from "./pages/jogo/TimeForm";
+import ResultadoForm from "./pages/jogo/ResultadoForm";
 
 // Pesquisa
 import Pesquisa from './pages/pesquisa/Pesquisa';
@@ -209,6 +210,12 @@ export default StacksOverTabs = createStackNavigator({
 		screen: TimeForm,
 		navigationOptions: {
 			title: 'Escala'
+		}
+	},
+	ResultadoForm: {
+		screen: ResultadoForm,
+		navigationOptions: {
+			title: 'Resultado'
 		}
 	}
 }, {

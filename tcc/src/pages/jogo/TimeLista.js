@@ -1,6 +1,14 @@
 import React from "react";
 
-import { StyleSheet, View, FlatList, Button, ActivityIndicator, Text, Alert } from "react-native";
+import { 
+    StyleSheet, 
+    View, 
+    FlatList, 
+    Button, 
+    ActivityIndicator, 
+    Text, 
+    Alert 
+} from "react-native";
 
 import { connect } from "react-redux";
 
@@ -36,7 +44,18 @@ class TimeLista extends React.Component {
             <View style={{paddingTop: 20}}>
                 <Button
                     title='Registrar resultado'
-                    onPress={() => this.props.navigation.navigate('ResultadoForm')} 
+                    onPress={() => {
+                        if (this.props.times && this.props.times.length > 1){
+                            this.props.navigation.navigate('ResultadoForm');
+                        } else {
+                            Alert.alert(
+                                'Resultado',
+                                'É necessário pelo menos dois times para registrar o resultado.',
+                                [{ text: 'OK' }],
+                                { cancelable: false }
+                            );
+                        }
+                    }}
                 />
             </View>
         );
@@ -46,9 +65,22 @@ class TimeLista extends React.Component {
         return (
             <View style={{paddingTop: 20}}>
                 <Button
-                    title='Encerrar jogo' 
+                    title='Encerrar partida'
+                    color='red'
                     onPress={() => {
-                        
+                        Alert.alert(
+                            'Encerrar partida', 
+                            `Deseja encerrar a partida?`,
+                            [{
+                                text: 'Não',
+                            },{
+                                text: 'Sim',
+                                onPress: async () => {
+                                    this.props.onPress();
+                                },
+                            }],
+                            { cancelable: false }
+                        )
                     }}/>
             </View>
         );
@@ -80,6 +112,8 @@ class TimeLista extends React.Component {
                 />
 
                 { this.renderCriarTimeButton() }
+                { this.renderRegistrarResultadoButton() }
+                { this.renderEncerrarJogoButton() }
                 
             </View>
         );

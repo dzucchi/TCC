@@ -4771,6 +4771,14 @@ react-native-modal@^6.2.0:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
+react-native-numeric-input@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/react-native-numeric-input/-/react-native-numeric-input-1.6.2.tgz#e0d9ea7c6a95e317d5efdc67af25a126ed568fae"
+  integrity sha512-VTSxt8xuKx5YCBZ8cUyiM2oGsbRKfxVwQ/s6MwWZCEiyWjArK0R9HxINW4OwhlguxLOWvJtog0CBp686+BsffQ==
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-pixel-perfect "^1.0.1"
+
 react-native-paper@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-2.1.3.tgz#ae2efce3cf8ba7d8afa6f5d743768b2be110520f"
@@ -4781,6 +4789,11 @@ react-native-paper@^2.1.3:
     create-react-context "^0.2.2"
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.4"
+
+react-native-pixel-perfect@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-pixel-perfect/-/react-native-pixel-perfect-1.0.2.tgz#8e6dc97e377caa4bd07f9e584ba438d53c0e25e8"
+  integrity sha512-0IvYCNkxuQbQC9q4tI+C3i6o38nbx916p7gBRBWuPxDhKBCuTkVV3VukcfW6vtjRlwQm6kwQcF9OtI+yUBt+YA==
 
 react-native-reanimated@1.0.0-alpha.6:
   version "1.0.0-alpha.6"

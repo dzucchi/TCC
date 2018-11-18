@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 15,
+        paddingBottom: 20
     },
     nome: {
         fontSize: 30,

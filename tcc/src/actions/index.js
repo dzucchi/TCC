@@ -5,3 +5,4 @@ export * from "./grupoFormActions";
 export * from "./grupoSelectedActions";
 export * from "./partidaActions";
 export * from "./timeActions";
+export * from "./resultadosActions";

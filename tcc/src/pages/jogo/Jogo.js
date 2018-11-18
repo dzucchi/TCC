@@ -89,8 +89,8 @@ class Jogo extends React.Component {
                 <TimeLista
                     navigation={navigation}
                     onPress={ async () => {
-                        await setEstagio(5);
-                        grupoSelected.estagio = 5;
+                        await setEstagio(0);
+                        grupoSelected.estagio = 0;
                         this.forceUpdate();
                     }} />
             )
