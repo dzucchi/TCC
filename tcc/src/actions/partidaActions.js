@@ -166,6 +166,27 @@ export const setEstagio = estagio => {
     }
 }
 
+export const desativarPartida = () => {
+    return async (dispatch, getState) => {
+        // PEGAR A KEY DA PARTIDA ATIVA.
+        let partidaAtivaKey;
+        firebase
+            .database()
+            .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+            .once('value', snapshot => {
+                snapshot.forEach((partida) => {
+                    if (partida.val().ativa) {
+                        partidaAtivaKey = partida.key;
+                        firebase
+                            .database()
+                            .ref(`grupos/${getState().grupoSelected.id}/partidas/${partidaAtivaKey}/ativa`)
+                            .set(false);
+                    }
+                });
+            });
+    }
+}
+
 export const SET_FIELD_JOGADOR_PRESENTE = 'SET_FIELD_JOGADOR_PRESENTE';
 export const setFieldJogadorPresente = (index, field, value) => {
     return {
@@ -266,5 +287,26 @@ export const updateJogadoresPresentes = () => {
                 reject();      
             }
         })
+    }
+}
+
+export const SET_PARTIDAS = 'SET_PARTIDAS';
+const setPartidas = partidas => ({
+    type: SET_PARTIDAS,
+    partidas
+});
+
+export const getPartidas = () => {
+    return async (dispatch, getState) => {
+        let partidas = [];
+        await firebase
+            .database()
+            .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+            .once('value', snapshot => {
+                snapshot.forEach((partida) => {
+                    partidas = [ ...partidas, partida.val() ];
+                });
+            });
+        dispatch(setPartidas(partidas));
     }
 }

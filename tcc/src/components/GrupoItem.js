@@ -5,7 +5,7 @@ const GrupoItem = ({ grupo, onPress }) => (
     <TouchableOpacity
         onPress={onPress} 
     >
-        <View style={[styles.line, styles.container]}>
+        <View style={styles.container}>
             <Text style={styles.texto}>
                 { grupo.nome }
             </Text>

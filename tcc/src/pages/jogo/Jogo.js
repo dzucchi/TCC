@@ -12,7 +12,7 @@ import MarcarJogadoresPresentesADM from "./MarcarJogadoresPresentesADM";
 
 import TimeLista from "./TimeLista";
 
-import { setEstagio } from "../../actions";
+import { setEstagio, desativarPartida } from "../../actions";
 
 class Jogo extends React.Component {
     renderAgendarJogoButton() {
@@ -50,7 +50,7 @@ class Jogo extends React.Component {
     }
 
     render() {
-        const { grupoSelected, setEstagio, navigation } = this.props;
+        const { grupoSelected, setEstagio, desativarPartida, navigation } = this.props;
 
         if (grupoSelected.estagio === 1) {
             return (
@@ -90,6 +90,7 @@ class Jogo extends React.Component {
                     navigation={navigation}
                     onPress={ async () => {
                         await setEstagio(0);
+                        await desativarPartida();
                         grupoSelected.estagio = 0;
                         this.forceUpdate();
                     }} />
@@ -133,6 +134,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     setEstagio,
+    desativarPartida,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

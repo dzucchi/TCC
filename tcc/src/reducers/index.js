@@ -10,6 +10,7 @@ import jogadoresFromSeletedGrupoReducer from "./jogadoresFromSeletedGrupoReducer
 import jogadoresConfirmadosReducer from "./jogadoresConfirmadosReducer";
 import jogadoresDisponiveisTimeReducer from "./jogadoresDisponiveisTimeReducer";
 import timesReducer from "./timesReducer";
+import partidasReducer from "./partidasReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
     jogadoresConfirmados: jogadoresConfirmadosReducer,
     jogadoresDisponiveisTime: jogadoresDisponiveisTimeReducer,
     times: timesReducer,
+    partidas: partidasReducer,
 });
