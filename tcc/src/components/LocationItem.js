@@ -8,11 +8,13 @@ import { setFieldGrupo, setFieldPartida } from "../actions";
 
 class LocationItem extends React.Component {
     _handlePress = async () => {
-        const { setFieldGrupo, setFieldPartida, fetchDetails, onPress, isPartida } = this.props;
+        const { setFieldGrupo, setFieldPartida, fetchDetails, onPress, isPartida, isSearching } = this.props;
         const res = await fetchDetails(this.props.place_id)
         const { lat, lng } = res.geometry.location;
         this.props.inputValue = res.formatted_address;
-        if (isPartida) {
+        if (isSearching) {
+            console.log('isSearching');
+        } else if (isPartida) {
             setFieldPartida('localizacao', { lat, lng });
             setFieldPartida('endereco', res.formatted_address);
         } else {

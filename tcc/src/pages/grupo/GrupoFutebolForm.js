@@ -134,6 +134,8 @@ class GrupoFutebolForm extends React.Component {
                                 language: 'pt-br',
                             }}
                             currentLocation={true}
+                            currentLocationLabel="Current location"
+                            nearbyPlacesAPI='GooglePlacesSearch'
                             components="country:br"
                         >
                             {({ 

@@ -178,16 +178,3 @@ export const getTimes = () => {
             });
     }
 }
-
-export const getNomeTime = (id_partida, id_time) => (dispatch, getState) => {
-    return firebase
-        .database()
-        .ref(`grupos/${getState().grupoSelected.id}/partidas/${id_partida}/times/${id_time}`)
-        .once('value')
-        .then(function(snapshot) {
-            return snapshot.val().nome;
-        })
-        .catch(error => {
-            return Promise.reject(error);
-        })
-}

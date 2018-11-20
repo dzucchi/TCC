@@ -11,6 +11,9 @@ import jogadoresConfirmadosReducer from "./jogadoresConfirmadosReducer";
 import jogadoresDisponiveisTimeReducer from "./jogadoresDisponiveisTimeReducer";
 import timesReducer from "./timesReducer";
 import partidasReducer from "./partidasReducer";
+import localizacoesReducer from "./localizacoesReducer";
+import grupoSearchedReducer from "./grupoSearchedReducer";
+
 
 export default combineReducers({
     user: userReducer,
@@ -24,4 +27,6 @@ export default combineReducers({
     jogadoresDisponiveisTime: jogadoresDisponiveisTimeReducer,
     times: timesReducer,
     partidas: partidasReducer,
+    localizacoes: localizacoesReducer,
+    grupoSearched: grupoSearchedReducer,
 });

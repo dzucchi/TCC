@@ -2,9 +2,7 @@ import React from "react";
 
 import { connect } from "react-redux";
 
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-
-import { getNomeTime } from "../actions";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 class PartidaItem extends React.Component {
     constructor(props) {
@@ -15,48 +13,26 @@ class PartidaItem extends React.Component {
         }
     }
 
-    teste(partida) {
-        console.log('>> ', Object.values(partida.resultados))
-        Object.values(partida.resultados).forEach(resultado => {
-            console.log('POHA ', partida.id,'  ', resultado.time_1)
-            this.props.getNomeTime(partida.id, resultado.time_1).then((nome) => {
-                if (nome) {
-                    console.log('NOME ', nome)
-                } else {
-                    console.log('sem nome')
-                }
-            });
-        });
-        
-        // getNomeTime(partida.resultados[0].time_1).then((nome) => {
-        //     if (nome) {
-        //         console.log('NOME ', nome)
-        //     } else {
-        //         console.log('sem nome')
-        //     }
-        // });
-    }
-
     render() {
 
-        const { partida, onPress, getNomeTime } = this.props;
-
-        const resultados = Object.values(partida.resultados);
-
+        const { resultado } = this.props;      
+    
         return (
-            <TouchableOpacity
-                onPress={onPress} 
-            >
-                <View>
-                    <FlatList
-                        data={resultados}
-                        renderItem={( {item} ) => (
-                            console.log('RESULTADO ', item)
-                        )}
-                        keyExtractor={(item, id) => id.toString()}
-                        ListHeaderComponent={props => (<View style={styles.marginTop} />)}
-                        ListFooterComponent={props => (<View style={styles.marginBottom} />)}
-                    />               
+            <TouchableOpacity>
+                <View style={styles.container}>
+                    <View style={styles.label_data}>
+                        <Text>{resultado.data}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{flex: 2}}>
+                            <Text style={styles.texto}>{resultado.nome_time_1}</Text>
+                            <Text style={styles.texto}>{resultado.nome_time_2}</Text>
+                        </View>
+                        <View style={{flex: 1}}>
+                            <Text style={styles.texto}>{resultado.gol_time_1}</Text>
+                            <Text style={styles.texto}>{resultado.gol_time_2}</Text>
+                        </View>
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -71,18 +47,20 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         elevation: 1,
 
-        flexDirection: 'row',
         paddingTop: 3,
         paddingBottom: 3,
     },
-   texto: {
+    texto: {
         fontSize: 18,
-        paddingLeft: 5,
     },
+    label_data: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
 
 const mapDispatchToProps = {
-    getNomeTime,
 }
 
 const mapStateToProps = state => {

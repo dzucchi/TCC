@@ -12,6 +12,8 @@ import {
 
 import { connect } from "react-redux";
 
+import { NavigationEvents } from "react-navigation";
+
 import PartidaItem from "../../components/PartidaItem";
 
 import { getPartidas } from "../../actions";
@@ -36,13 +38,40 @@ class Historico extends React.Component {
             return <ActivityIndicator />;
         }
 
+        let resultados = [];
+        if (partidas.length > 1) {
+            Object.values(partidas).forEach((partida) => {
+                if (partida.resultados) {
+                    Object.values(partida.resultados).forEach((resultado) => {
+                        resultados = [ ...resultados, resultado ];
+                    });
+                }
+            });
+        } else {
+            return (
+                <View style={styles.container_sem_partida}>
+                    <NavigationEvents
+                        onWillFocus={() => {
+                            this.props.getPartidas();
+                        }}
+                    />
+                    <Text style={{fontSize: 30}}>Não há partidas</Text>
+                </View>
+            );
+        }
+
         return (
             <View>
+                <NavigationEvents
+                    onWillFocus={async () => {
+                        await this.props.getPartidas();
+                    }}
+                />
                 <FlatList
-                    data={partidas}
+                    data={resultados}
                     renderItem={({ item }) => (
                         <PartidaItem 
-                            partida={item} />
+                            resultado={item}/>
                     )}
                     keyExtractor={(item, id) => id.toString()}
                     ListHeaderComponent={props => (<View style={styles.marginTop} />)}
@@ -60,6 +89,11 @@ const styles = StyleSheet.create({
     marginBottom: {
         marginBottom: 5,
     },
+    container_sem_partida: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
 
 const mapDispatchToProps = {
