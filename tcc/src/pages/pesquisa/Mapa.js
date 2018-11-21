@@ -87,8 +87,6 @@ class Mapa extends React.Component {
         const { latitude, longitude } = this.state;
         const { localizacoes } = this.props;
 
-        console.log('render: ', latitude, ' - ', longitude);
-
         if (latitude === null || longitude === null || localizacoes === null) {
             return <ActivityIndicator />;
         }

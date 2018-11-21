@@ -52,6 +52,14 @@ class Jogo extends React.Component {
     render() {
         const { grupoSelected, setEstagio, desativarPartida, navigation } = this.props;
 
+        if (grupoSelected === null) {
+            return (
+                <View style={styles.container_center}>
+                    <Text>Primeiro selecione um grupo.</Text>
+                </View>
+            );
+        }
+
         if (grupoSelected.estagio === 1) {
             return (
                 <JogoNovaPartida 
@@ -120,6 +128,11 @@ class Jogo extends React.Component {
 const styles = StyleSheet.create({
     card: {
         paddingTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    container_center: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
