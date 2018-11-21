@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
+        backgroundColor: 'white'
     }
 })
 

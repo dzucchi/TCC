@@ -93,8 +93,34 @@ class Mapa extends React.Component {
             return <ActivityIndicator />;
         }
 
-        return (                
+        return (
             <View style={styles.container}>
+                
+                <MapView
+                    style={styles.map}
+                    provider={MapView.PROVIDER_GOOGLE}
+                    region={{
+                        latitude,
+                        longitude,
+                        latitudeDelta: 0.0042,
+                        longitudeDelta: 0.0041,
+                    }}
+                >
+
+                {this.state.places}
+
+                    {/* <MapView.Marker
+                        coordinate={{
+                            latitude: -8.7258686,
+                            longitude: -35.0931849,
+                        }}
+                        title={'Meu ponto'}
+                        description={'algum desc'}
+                        identifier={'123'}
+                        onPress={e => console.log(e.nativeEvent)}
+                    /> */}
+                </MapView>
+
                 <View style={styles.campo_pesquisa}>
                     <GoogleAutoComplete 
                         apiKey="AIzaSyCXjQR2IrF0tWKliRccy_CUkX-__qynY1Y" 
@@ -140,7 +166,6 @@ class Mapa extends React.Component {
                                             onPress={async () => {
                                                 const res = await fetchDetails(el.place_id);
                                                 const { lat, lng } = res.geometry.location;
-                                                console.log('NOVOS: ', lat, '  -  ', lng)
                                                 this.setState({
                                                     latitude: lat,
                                                     longitude: lng,
@@ -156,59 +181,24 @@ class Mapa extends React.Component {
                         )}
                     </GoogleAutoComplete>
                 </View>
-                <MapView
-                    style={styles.map}
-                    provider={MapView.PROVIDER_GOOGLE}
-                    region={{
-                        latitude,
-                        longitude,
-                        latitudeDelta: 0.0042,
-                        longitudeDelta: 0.0041,
-                    }}
-                >
 
-                {this.state.places}
-
-                    {/* <MapView.Marker
-                        coordinate={{
-                            latitude: -8.7258686,
-                            longitude: -35.0931849,
-                        }}
-                        title={'Meu ponto'}
-                        description={'algum desc'}
-                        identifier={'123'}
-                        onPress={e => console.log(e.nativeEvent)}
-                    /> */}
-                </MapView>
-            </View>
+                </View>
+                
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        flex: 1
     },
     map: {
         position: 'absolute',
-        top: 40,
-        bottom: 0,
+        top: 30,
         left: 0,
         right: 0,
+        bottom: 0,
     },
-    campo_pesquisa: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-    }
 })
 
 const mapDispatchToProps = {
