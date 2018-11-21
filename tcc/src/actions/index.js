@@ -9,3 +9,4 @@ export * from "./resultadosActions";
 export * from "./historicoActions";
 export * from "./localizacoesActions";
 export * from "./grupoSearchedActions";
+export * from "./notificacoesActions";

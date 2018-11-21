@@ -6,9 +6,11 @@ import { connect } from "react-redux";
 
 import { AgeFromDateString } from "age-calculator";
 
-import { watchJogador, watchGrupos, setField, setSelectedGrupo } from "../../actions";
+import { watchJogador, watchGrupos, watchNotificacoes, setField, setSelectedGrupo } from "../../actions";
 
 import AddGrupoItem from "../../components/AddGrupoItem";
+
+import NotificacaoIcon from "../../components/NotificacaoIcon";
 
 import GrupoItem from "../../components/GrupoItem";
 
@@ -16,6 +18,7 @@ class PerfilFutebol extends React.Component {
     componentDidMount() {
         this.props.watchJogador().then(() => {
             this.props.watchGrupos();
+            this.props.watchNotificacoes();
         });
     }
 
@@ -63,18 +66,23 @@ class PerfilFutebol extends React.Component {
     }
 
     render() {
-        const { jogador, grupos, navigation } = this.props;
+        const { jogador, grupos, notificacoes, navigation } = this.props;
 
-        if (jogador === null) {
+        if (jogador === null || notificacoes === null) {
             return <ActivityIndicator />;
         }
 
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.nome}>
-                        {jogador.nome}
-                    </Text>
+                    <View style={styles.conteiner_nome}>
+                        <Text style={styles.nome}>
+                            {jogador.nome}
+                        </Text>
+                        <NotificacaoIcon 
+                                qtdNotificacoes={notificacoes.length}
+                                onPress={() => navigation.navigate('NotificacaoList')} />
+                    </View>
                     <Text style={styles.idade}>
                         {jogador.idade === '' ? '' : this.formatarData(jogador.idade) + ' anos'}
                     </Text>
@@ -132,6 +140,10 @@ const styles = StyleSheet.create({
     idade: {
         marginTop: 10,
     },
+    conteiner_nome: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+    },
     contentbaixo: {
         marginTop: 20,
         marginRight: 10,
@@ -154,6 +166,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
     watchJogador,
     watchGrupos,
+    watchNotificacoes,
     setField,
     setSelectedGrupo,
 }
@@ -163,6 +176,7 @@ const mapStateToProps = state => {
         jogador: state.jogador,
         user: state.user,
         grupos: state.grupos,
+        notificacoes: state.notificacoes,
     }
 }
 

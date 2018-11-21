@@ -6,28 +6,30 @@ import {
     Alert,
 } from "react-native";
 
-import firebase from "firebase";
-
 import { connect } from "react-redux";
 
 import Line from "../../components/Line";
 
+import { saveNotificacao } from "../../actions";
+
 class GrupoFutebolDetail extends React.Component {
 
     entrarNoGrupo() {
-        const { currentUser } = firebase.auth();
-        const key_jogador_logado = currentUser.uid;
+        const { grupoSearched, saveNotificacao, jogador, navigation } = this.props;
+
         let possuiJogador = false;
-        const { grupoSearched } = this.props;
         Object.keys(grupoSearched.jogadores).forEach((key) => {
-            if (key === key_jogador_logado) {
+            if (key === jogador.id_user) {
                 possuiJogador = true;
             }
         });
         if (possuiJogador) {
-            Alert.alert('Já faz parte deste grupo');
+            Alert.alert('', 'Já faz parte deste grupo');
         } else {
-            console.log('ENRAR');
+            const { id_lider, id, nome } = grupoSearched;
+            saveNotificacao(id_lider, id, nome, jogador.id_user, jogador.id, jogador.nome);
+            Alert.alert('', 'Solicitação enviada.')
+            navigation.navigate('Main');
         }
     }
 
@@ -121,6 +123,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+    saveNotificacao
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GrupoFutebolDetail);

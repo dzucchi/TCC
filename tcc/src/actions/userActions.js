@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import { Alert } from "react-native";
 
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 const userLoginSuccess = user => ({
@@ -32,7 +31,7 @@ export const tryLoginWithFacebook = ({ type, token }) => dispatch => {
 export const createAccount = ({ email, password }) => dispatch => {
     return firebase
             .auth()
-            .createUserWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(email.trim(), password)
             .then(user => {
                 dispatch(userLoginSuccess(user));    
                 return user;
@@ -45,7 +44,7 @@ export const createAccount = ({ email, password }) => dispatch => {
 export const tryLogin = ({ email, password }) => dispatch => {
     return firebase
         .auth()
-        .signInWithEmailAndPassword(email, password)
+        .signInWithEmailAndPassword(email.trim(), password)
         .then(user => {
             dispatch(userLoginSuccess(user));
             return user;

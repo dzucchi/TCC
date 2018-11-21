@@ -14,7 +14,6 @@ class PartidaItem extends React.Component {
     }
 
     render() {
-
         const { resultado } = this.props;      
     
         return (

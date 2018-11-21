@@ -32,6 +32,7 @@ import Historico from "./pages/jogo/Historico";
 import GrupoFutebolDetail from "./pages/grupo/GrupoFutebolDetail";
 import TimeForm from "./pages/jogo/TimeForm";
 import ResultadoForm from "./pages/jogo/ResultadoForm";
+import NotificacaoList from "./pages/jogo/NotificacaoList";
 
 // Pesquisa
 import Pesquisa from './pages/pesquisa/Pesquisa';
@@ -216,6 +217,12 @@ export default StacksOverTabs = createStackNavigator({
 		screen: ResultadoForm,
 		navigationOptions: {
 			title: 'Resultado'
+		}
+	},
+	NotificacaoList: {
+		screen: NotificacaoList,
+		navigationOptions: {
+			title: 'Notificações'
 		}
 	}
 }, {

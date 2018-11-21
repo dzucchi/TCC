@@ -16,7 +16,7 @@ export const watchGrupos = () => {
                     let grupos = {};
                     const grupoKeys = Object.keys(getState().jogador.grupos);
                     const grupoKeysBaseON = Object.keys(snapshot.val());
-                    grupoKeysBaseON.forEach(function(keyON) {              
+                    grupoKeysBaseON.forEach(function(keyON) {
                         grupoKeys.forEach(function(key) {
                             if (key === keyON) {
                                 grupos = [...grupos, snapshot.val()[keyON]];

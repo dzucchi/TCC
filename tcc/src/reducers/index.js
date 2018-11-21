@@ -13,6 +13,7 @@ import timesReducer from "./timesReducer";
 import partidasReducer from "./partidasReducer";
 import localizacoesReducer from "./localizacoesReducer";
 import grupoSearchedReducer from "./grupoSearchedReducer";
+import notificacoesReducer from "./notificacoesReducer";
 
 
 export default combineReducers({
@@ -29,4 +30,5 @@ export default combineReducers({
     partidas: partidasReducer,
     localizacoes: localizacoesReducer,
     grupoSearched: grupoSearchedReducer,
+    notificacoes: notificacoesReducer,
 });
