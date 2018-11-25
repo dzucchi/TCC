@@ -16,7 +16,7 @@ class NotificacaoItem extends React.Component {
     }
 
     render() {
-        const { notificacao, setJogadorAoGrupo, navigation } = this.props;      
+        const { notificacao, setJogadorAoGrupo, desativarNotificacao, navigation } = this.props;      
     
         return (
             <TouchableOpacity
@@ -29,14 +29,12 @@ class NotificacaoItem extends React.Component {
                             text: 'Não',
                             onPress: async () => {
                                 await desativarNotificacao(id_lider_grupo, id);
-                                this.forceUpdate();
                             }
                         },{
                             text: 'Sim',
                             onPress: async () => {
                                 await setJogadorAoGrupo(id_jogador, uid_jogador, id_grupo);
                                 await desativarNotificacao(id_lider_grupo, id);
-                                navigation.navigate('Main');
                             },
                         }]
                     )

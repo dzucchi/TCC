@@ -17,10 +17,6 @@ class JogoConfirmaPresenca extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.watchJogadoresFromSelectedGrupo();
-    }
-
     renderConfirmPresenceButton() {
         return (
             <View style={{paddingTop: 20}}>

@@ -14,6 +14,7 @@ import partidasReducer from "./partidasReducer";
 import localizacoesReducer from "./localizacoesReducer";
 import grupoSearchedReducer from "./grupoSearchedReducer";
 import notificacoesReducer from "./notificacoesReducer";
+import jogadoresFinanceiroReducer from "./jogadoresFinanceiroReducer";
 
 
 export default combineReducers({
@@ -31,4 +32,5 @@ export default combineReducers({
     localizacoes: localizacoesReducer,
     grupoSearched: grupoSearchedReducer,
     notificacoes: notificacoesReducer,
+    jogadoresFinanceiro: jogadoresFinanceiroReducer,
 });

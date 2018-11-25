@@ -6,7 +6,7 @@ export * from "./grupoSelectedActions";
 export * from "./partidaActions";
 export * from "./timeActions";
 export * from "./resultadosActions";
-export * from "./historicoActions";
 export * from "./localizacoesActions";
 export * from "./grupoSearchedActions";
 export * from "./notificacoesActions";
+export * from "./financeiroActions";

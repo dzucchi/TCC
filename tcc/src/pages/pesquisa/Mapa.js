@@ -40,7 +40,7 @@ class Mapa extends React.Component {
 
     getPlaces() {
         const { localizacoes, navigation, setSearchedGrupo } = this.props;
-        if (localizacoes.length > 1) {
+        if (localizacoes.length > 0) {
             const arrayMarkers = [];
             localizacoes.forEach((element, i) => {
                 arrayMarkers.push(
@@ -84,7 +84,7 @@ class Mapa extends React.Component {
 
     render() {
         
-        const { latitude, longitude } = this.state;
+        const { latitude, longitude, places } = this.state;
         const { localizacoes } = this.props;
 
         if (latitude === null || longitude === null || localizacoes === null) {
@@ -105,7 +105,7 @@ class Mapa extends React.Component {
                     }}
                 >
 
-                {this.state.places}
+                {places}
 
                     {/* <MapView.Marker
                         coordinate={{

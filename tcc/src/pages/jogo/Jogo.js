@@ -12,9 +12,18 @@ import MarcarJogadoresPresentesADM from "./MarcarJogadoresPresentesADM";
 
 import TimeLista from "./TimeLista";
 
-import { setEstagio, desativarPartida } from "../../actions";
+import { 
+    setEstagio, 
+    desativarPartida, 
+    watchJogadoresFromSelectedGrupo, 
+    contabilizarFinanceiro 
+} from "../../actions";
 
 class Jogo extends React.Component {
+    componentDidMount() {
+        this.props.watchJogadoresFromSelectedGrupo();
+    }
+
     renderAgendarJogoButton() {
         const { grupoSelected, jogador } = this.props;
 
@@ -30,9 +39,16 @@ class Jogo extends React.Component {
                 </View>
             );
         } else {
+            if (grupoSelected.estagio === 0) {
+                return (
+                    <View style={styles.card}>
+                        <Text style={{fontSize: 25}}>Nenhum jogo marcado</Text>
+                    </View>
+                )
+            }
             return (
                 <View style={styles.card}>
-                    <Text style={{fontSize: 25}}>Nenhum jogo marcado</Text>
+                    <Text style={{fontSize: 25}}>Jogo em andamento</Text>
                 </View>
             )
         }
@@ -50,7 +66,14 @@ class Jogo extends React.Component {
     }
 
     render() {
-        const { grupoSelected, setEstagio, desativarPartida, navigation } = this.props;
+        const { 
+            grupoSelected, 
+            setEstagio, 
+            desativarPartida, 
+            jogador, 
+            contabilizarFinanceiro, 
+            navigation 
+        } = this.props;
 
         if (grupoSelected === null) {
             return (
@@ -60,16 +83,44 @@ class Jogo extends React.Component {
             );
         }
 
-        if (grupoSelected.estagio === 1) {
-            return (
-                <JogoNovaPartida 
-                    onPress={() => {
-                        grupoSelected.estagio = 2;
-                        this.forceUpdate();
-                    }} />
-            );
+        if (grupoSelected.id_lider === jogador.id_user) {
+            if (grupoSelected.estagio === 1) {
+                return (
+                    <JogoNovaPartida 
+                        onPress={() => {
+                            grupoSelected.estagio = 2;
+                            this.forceUpdate();
+                        }} />
+                );
+            }
+
+            if (grupoSelected.estagio === 3) {
+                return (
+                    <MarcarJogadoresPresentesADM
+                        onPress={ async () => {
+                            await setEstagio(4);
+                            grupoSelected.estagio = 4;
+                            this.forceUpdate();
+                        }} />
+                )
+            }
+
+            if (grupoSelected.estagio === 4) {
+                return (
+                    <TimeLista
+                        navigation={navigation}
+                        onPress={ async () => {
+                            await setEstagio(0);
+                            await contabilizarFinanceiro();
+                            await desativarPartida();
+                            grupoSelected.estagio = 0;
+                            this.forceUpdate();
+                        }} />
+                )
+            }
         }
 
+        // CONFIRMAR PRESENÇA.
         if (grupoSelected.estagio === 2) {
             return (
                 <JogoConfirmaPresenca
@@ -81,31 +132,7 @@ class Jogo extends React.Component {
             )
         }
 
-        if (grupoSelected.estagio === 3) {
-            return (
-                <MarcarJogadoresPresentesADM
-                    onPress={ async () => {
-                        await setEstagio(4);
-                        grupoSelected.estagio = 4;
-                        this.forceUpdate();
-                    }} />
-            )
-        }
-
-        if (grupoSelected.estagio === 4) {
-            return (
-                <TimeLista
-                    navigation={navigation}
-                    onPress={ async () => {
-                        await setEstagio(0);
-                        await desativarPartida();
-                        grupoSelected.estagio = 0;
-                        this.forceUpdate();
-                    }} />
-            )
-        }
-
-        return (   
+        return (
             <View>
                 <View style={styles.card}>
                     <Image
@@ -146,8 +173,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+    watchJogadoresFromSelectedGrupo,
     setEstagio,
     desativarPartida,
+    contabilizarFinanceiro,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

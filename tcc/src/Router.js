@@ -102,13 +102,13 @@ const PesquisaTabNav = createMaterialTopTabNavigator({
 			tabBarLabel: 'Mapa',
 		}
 	},
-	Pesquisa: {
-		screen: Pesquisa,
-		navigationOptions: {
-			title: 'Pesquisa',
-			tabBarLabel: 'Pesquisa',
-		}
-	},
+	// Pesquisa: {
+	// 	screen: Pesquisa,
+	// 	navigationOptions: {
+	// 		title: 'Pesquisa',
+	// 		tabBarLabel: 'Pesquisa',
+	// 	}
+	// },
 });
 
 const TabNav = createBottomTabNavigator({

@@ -11,6 +11,14 @@ class NotificacaoList extends React.Component {
     render() {
         const { notificacoes, navigation } = this.props;
 
+        if (notificacoes.length === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text>Sem notificações</Text>
+                </View>
+            );
+        }
+
         return (
             <View>
                 <FlatList
@@ -36,6 +44,11 @@ const styles = StyleSheet.create({
     },
     marginBottom: {
         marginBottom: 5,
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
 

@@ -3,11 +3,9 @@ import React from "react";
 import { 
     StyleSheet, 
     View, 
-    FlatList, 
-    Button, 
+    FlatList,
     ActivityIndicator, 
-    Text, 
-    Alert 
+    Text
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -32,7 +30,15 @@ class Historico extends React.Component {
     }
 
     render() {
-        const { partidas } = this.props;
+        const { partidas, grupoSelected } = this.props;
+
+        if (grupoSelected === null) {
+            return (
+                <View style={styles.container_center}>
+                    <Text>Primeiro selecione um grupo.</Text>
+                </View>
+            );
+        }
 
         if (partidas === null) {
             return <ActivityIndicator />;
@@ -49,10 +55,10 @@ class Historico extends React.Component {
             });
         } else {
             return (
-                <View style={styles.container_sem_partida}>
+                <View style={styles.container_center}>
                     <NavigationEvents
-                        onWillFocus={() => {
-                            this.props.getPartidas();
+                        onWillFocus={async () => {
+                            await this.props.getPartidas();
                         }}
                     />
                     <Text style={{fontSize: 30}}>Não há partidas</Text>
@@ -89,11 +95,11 @@ const styles = StyleSheet.create({
     marginBottom: {
         marginBottom: 5,
     },
-    container_sem_partida: {
+    container_center: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
 })
 
 const mapDispatchToProps = {
@@ -103,6 +109,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         partidas: state.partidas,
+        grupoSelected: state.grupoSelected,
     }
 }
 

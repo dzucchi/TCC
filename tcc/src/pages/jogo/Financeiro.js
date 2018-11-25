@@ -1,56 +1,45 @@
 import React from "react";
 
-import { StyleSheet, View, Image, Button, Text } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Text, FlatList } from "react-native";
 
 import { connect } from "react-redux";
 
-import JogoNovaPartida from "./JogoNovaPartida";
+import { NavigationEvents } from "react-navigation";
 
-import JogoConfirmaPresenca from "./JogoConfirmaPresenca";
+import JogadorSaldoItem from "../../components/JogadorSaldoItem";
 
-import MarcarJogadoresPresentesADM from "./MarcarJogadoresPresentesADM";
+import PlayerBeingItem from "../../components/PlayerBeingItem";
 
-import TimeLista from "./TimeLista";
-
-import { setEstagio, desativarPartida } from "../../actions";
+import { 
+    watchJogadoresFromSelectedGrupo, 
+    getJogadoresFinanceiro, 
+    setFieldJogadorFinanceiro,
+    setJogadorFinanceiro
+} from "../../actions";
 
 class Financeiro extends React.Component {
-    renderAgendarJogoButton() {
-        const { grupoSelected, jogador } = this.props;
+    constructor(props) {
+        super(props);
 
-        if (grupoSelected.id_lider === jogador.id_user) {
-            return (
-                <View style={{paddingTop: 20}}>
-                    <Button
-                        title='Agendar jogo' 
-                        onPress={() => {
-                            grupoSelected.estagio = 1;             
-                            this.forceUpdate();
-                        }} />
-                </View>
-            );
-        } else {
-            return (
-                <View style={styles.card}>
-                    <Text style={{fontSize: 25}}>Nenhum jogo marcado</Text>
-                </View>
-            )
+        this.state = {
+            isLoading: true,
         }
     }
 
-    renderConfigButton() {
-        const { navigation } = this.props;
-        return (
-            <View style={{paddingTop: 10}}>
-                <Button
-                    title='Configurações'
-                    onPress={() => navigation.navigate('GrupoFutebolDetail')} />
-            </View>
-        );
+    componentDidMount() {
+        this.props.getJogadoresFinanceiro();
     }
 
     render() {
-        const { grupoSelected, setEstagio, desativarPartida, navigation } = this.props;
+        const {
+            jogadoresFromSeletedGrupo, 
+            jogadoresFinanceiro, 
+            grupoSelected,
+            setFieldJogadorFinanceiro,
+            setJogadorFinanceiro,
+            partidas,
+            jogador,
+        } = this.props;
 
         if (grupoSelected === null) {
             return (
@@ -60,69 +49,66 @@ class Financeiro extends React.Component {
             );
         }
 
-        if (grupoSelected.estagio === 1) {
+        if (jogadoresFromSeletedGrupo === null || jogadoresFinanceiro === null) {
+            return <ActivityIndicator />;
+        }
+
+        if ((grupoSelected.id_lider === jogador.id_user) && grupoSelected.estagio === 4) {
+
+            let gastoPartida = 0;
+            partidas.forEach(element => {
+                if (element.ativa) {
+                    gastoPartida = parseFloat(element.valor_gastos);
+                }
+            });
+            const qtdJogadores = jogadoresFinanceiro.length;
+            const valorRateio = gastoPartida / qtdJogadores;
+
             return (
-                <JogoNovaPartida 
-                    onPress={() => {
-                        grupoSelected.estagio = 2;
-                        this.forceUpdate();
-                    }} />
+                <View>
+                    <View style={styles.titulo}>
+                        <Text style={{fontSize: 25, color: 'gray'}}>
+                            {'VALOR À PAGAR: '}
+                            <Text style={{color: 'red'}}>
+                                {`R$${valorRateio.toFixed(2)}`}
+                            </Text>
+                        </Text>
+                    </View>
+
+                    <FlatList
+                        data={jogadoresFinanceiro}
+                        renderItem={({ item, index }) => (
+                            <PlayerBeingItem 
+                                index={index} 
+                                jogador={item}
+                                jogador_financeiro
+                                onPress={() => {
+                                    setFieldJogadorFinanceiro(index, 'valor_pago', item.valor_pago ? false : true);
+                                    setJogadorFinanceiro(index, item.valor_pago ? false : true);
+                                }} />
+                        )}
+                        keyExtractor={(item, id) => id.toString()}
+                        ListHeaderComponent={props => (<View style={styles.marginTop} />)}
+                        ListFooterComponent={props => (<View style={styles.marginBottom} />)}
+                    />
+                </View>
             );
         }
 
-        if (grupoSelected.estagio === 2) {
-            return (
-                <JogoConfirmaPresenca
-                    onPress={ async () => {
-                        await setEstagio(3);
-                        grupoSelected.estagio = 3;
-                        this.forceUpdate();
-                    }} />
-            )
-        }
-
-        if (grupoSelected.estagio === 3) {
-            return (
-                <MarcarJogadoresPresentesADM
-                    onPress={ async () => {
-                        await setEstagio(4);
-                        grupoSelected.estagio = 4;
-                        this.forceUpdate();
-                    }} />
-            )
-        }
-
-        if (grupoSelected.estagio === 4) {
-            return (
-                <TimeLista
-                    navigation={navigation}
-                    onPress={ async () => {
-                        await setEstagio(0);
-                        await desativarPartida();
-                        grupoSelected.estagio = 0;
-                        this.forceUpdate();
-                    }} />
-            )
-        }
-
-        return (   
+        return (
             <View>
-                <View style={styles.card}>
-                    <Image
-                        source={require('../../../resources/soccer-ball-variant.png')}
-                        aspectRatio={1}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={{padding: 10}}>
-                    { this.renderAgendarJogoButton() }
-                    { this.renderConfigButton() }
-                </View>
+                <FlatList
+                    data={jogadoresFromSeletedGrupo}
+                    renderItem={({ item }) => (
+                        <JogadorSaldoItem jogador={item}/>
+                    )}
+                    keyExtractor={(item, id) => id.toString()}
+                    ListHeaderComponent={props => (<View style={styles.marginTop} />)}
+                    ListFooterComponent={props => (<View style={styles.marginBottom} />)}
+                />
             </View>
-            
         );
     }
-    
 }
 
 const styles = StyleSheet.create({
@@ -136,16 +122,29 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    titulo: {
+        paddingTop: 10,
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
 
 function mapStateToProps(state) {
     return {
+        jogadoresFromSeletedGrupo: state.jogadoresFromSeletedGrupo,
         grupoSelected: state.grupoSelected,
+        jogadoresFinanceiro: state.jogadoresFinanceiro,
+        partidas: state.partidas,
         jogador: state.jogador,
     }
 }
 
 const mapDispatchToProps = {
+    watchJogadoresFromSelectedGrupo,
+    getJogadoresFinanceiro,
+    setFieldJogadorFinanceiro,
+    setJogadorFinanceiro,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Financeiro);
