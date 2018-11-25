@@ -45,7 +45,7 @@ class Historico extends React.Component {
         }
 
         let resultados = [];
-        if (partidas.length > 1) {
+        if (partidas.length > 0) {
             Object.values(partidas).forEach((partida) => {
                 if (partida.resultados) {
                     Object.values(partida.resultados).forEach((resultado) => {

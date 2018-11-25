@@ -31,8 +31,6 @@ export const setJogadorFinanceiro = (index, value) => {
 export const getJogadoresFinanceiro = () => {
     return (dispatch, getState) => {
 
-        if (getState().grupoSelected === null || getState().grupoSelected.jogadores === null) return;
-
         // PEGAR TODOS OS JOGADORES DO GRUPO SELECIONADO.
         firebase
             .database()

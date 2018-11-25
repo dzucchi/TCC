@@ -33,8 +33,6 @@ const setJogadoresFromSelectedGrupo = jogadores => ({
 export const watchJogadoresFromSelectedGrupo = () => {
     return (dispatch, getState) => {
 
-        if (getState().grupoSelected === null || getState().grupoSelected.jogadores === null) return;
-
         // PEGAR TODOS OS JOGADORES DO GRUPO SELECIONADO.
         firebase
             .database()
@@ -301,16 +299,14 @@ const setPartidas = partidas => ({
 export const getPartidas = () => {
     return async (dispatch, getState) => {
         let partidas = [];
-        if (getState().grupoSelected) {
-            await firebase
-            .database()
-            .ref(`grupos/${getState().grupoSelected.id}/partidas`)
-            .once('value', snapshot => {
-                snapshot.forEach((partida) => {
-                    partidas = [ ...partidas, partida.val() ];
-                });
+        await firebase
+        .database()
+        .ref(`grupos/${getState().grupoSelected.id}/partidas`)
+        .once('value', snapshot => {
+            snapshot.forEach((partida) => {
+                partidas = [ ...partidas, partida.val() ];
             });
-            dispatch(setPartidas(partidas));
-        }
+        });
+        dispatch(setPartidas(partidas));
     }
 }

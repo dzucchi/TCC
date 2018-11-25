@@ -4,7 +4,7 @@ import { StyleSheet, View, FlatList, Button, ActivityIndicator, Alert } from "re
 
 import { connect } from "react-redux";
 
-import { watchJogadoresFromSelectedGrupo, presenceUpdate } from "../../actions";
+import { presenceUpdate } from "../../actions";
 
 import JogadorItem from "../../components/JogadorItem";
 
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = {
-    watchJogadoresFromSelectedGrupo,
     presenceUpdate,
 }
 

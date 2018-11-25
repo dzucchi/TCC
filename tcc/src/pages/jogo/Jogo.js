@@ -21,7 +21,9 @@ import {
 
 class Jogo extends React.Component {
     componentDidMount() {
-        this.props.watchJogadoresFromSelectedGrupo();
+        if (this.props.grupoSelected !== null) {
+            this.props.watchJogadoresFromSelectedGrupo();
+        }
     }
 
     renderAgendarJogoButton() {

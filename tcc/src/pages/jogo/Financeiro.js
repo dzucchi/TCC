@@ -10,8 +10,7 @@ import JogadorSaldoItem from "../../components/JogadorSaldoItem";
 
 import PlayerBeingItem from "../../components/PlayerBeingItem";
 
-import { 
-    watchJogadoresFromSelectedGrupo, 
+import {
     getJogadoresFinanceiro, 
     setFieldJogadorFinanceiro,
     setJogadorFinanceiro
@@ -27,7 +26,9 @@ class Financeiro extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getJogadoresFinanceiro();
+        if (this.props.grupoSelected !== null) {
+            this.props.getJogadoresFinanceiro();
+        }
     }
 
     render() {
@@ -141,7 +142,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    watchJogadoresFromSelectedGrupo,
     getJogadoresFinanceiro,
     setFieldJogadorFinanceiro,
     setJogadorFinanceiro,
