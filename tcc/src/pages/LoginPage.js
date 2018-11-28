@@ -31,7 +31,9 @@ class LoginPage extends React.Component {
             storageBucket: "furb-tcc.appspot.com",
             messagingSenderId: "112702997561"
         };
-        firebase.initializeApp(config);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+        }
     }
 
     onChangeHandler(field, value) {
@@ -115,7 +117,7 @@ class LoginPage extends React.Component {
                 <View style = {styles.margin20Top}>
                     <Button
                         title='Criar conta'
-                        onPress={() => this.props.navigation.replace('CreateAccount')} />
+                        onPress={() => this.props.navigation.navigate('CreateAccount')} />
                 </View>
             </View>
         );

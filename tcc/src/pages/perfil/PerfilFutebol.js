@@ -66,6 +66,24 @@ class PerfilFutebol extends React.Component {
         );
     }
 
+    renderButtons() {
+        return (
+            <View>
+                <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
+                    <Button 
+                        title="Editar" 
+                        onPress={() => navigation.navigate('PerfilFutebolForm')} />
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        title='Sair'
+                        color= 'red'
+                        onPress={() => this.props.navigation.replace('Login')} />
+                </View>
+            </View>
+        );
+    }
+
     render() {
         const { jogador, grupos, notificacoes, navigation } = this.props;
         
@@ -99,12 +117,8 @@ class PerfilFutebol extends React.Component {
                         </View>
                     </View>
                 </View>
-                
-                <View style={styles.button}>
-                    <Button 
-                        title="Editar" 
-                        onPress={() => navigation.navigate('PerfilFutebolForm')} />
-                </View>
+
+                {this.renderButtons()}
 
                 <View style={styles.labelGrupos}>
                     <Text>
