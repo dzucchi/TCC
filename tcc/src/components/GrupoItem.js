@@ -5,22 +5,16 @@ import { connect } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 class GrupoItem extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isSelected: false
-        }
-    }
 
     render() {
         const { grupo, onPress, grupoSelected } = this.props;
 
+        let isGrupo = false;
         if (grupoSelected !== null) {
             if (grupo.id === grupoSelected.id) {
-                this.setState({isSelected: true});
+                isGrupo = true;
             } else {
-                this.setState({isSelected: false});
+                isGrupo = false;
             }
         }
 
@@ -29,7 +23,7 @@ class GrupoItem extends React.Component {
                 onPress={onPress} 
             >
                 <View style={styles.container}>
-                    <Text style={[styles.texto, this.state.isSelected ? styles.negrito : null]}>
+                    <Text style={[styles.texto, isGrupo ? styles.negrito : null]}>
                         { grupo.nome }
                     </Text>
                 </View>

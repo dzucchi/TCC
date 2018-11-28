@@ -7,7 +7,7 @@ import {
     Button, 
     ActivityIndicator, 
     Text, 
-    Alert 
+    Alert,
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -75,7 +75,7 @@ class TimeLista extends React.Component {
                                 text: 'Não',
                             },{
                                 text: 'Sim',
-                                onPress: async () => {
+                                onPress: () => {
                                     this.props.onPress();
                                 },
                             }],

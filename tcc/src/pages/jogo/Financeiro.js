@@ -67,6 +67,11 @@ class Financeiro extends React.Component {
 
             return (
                 <View>
+                    <NavigationEvents
+                        onWillFocus={async () => {
+                            await this.props.getJogadoresFinanceiro();
+                        }}
+                    />
                     <View style={styles.titulo}>
                         <Text style={{fontSize: 25, color: 'gray'}}>
                             {'VALOR À PAGAR: '}
@@ -98,6 +103,11 @@ class Financeiro extends React.Component {
 
         return (
             <View>
+                <NavigationEvents
+                    onWillFocus={async () => {
+                        await this.props.getJogadoresFinanceiro();
+                    }}
+                />
                 <FlatList
                     data={jogadoresFromSeletedGrupo}
                     renderItem={({ item }) => (

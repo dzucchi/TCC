@@ -67,7 +67,7 @@ class PerfilFutebol extends React.Component {
 
     render() {
         const { jogador, grupos, notificacoes, navigation } = this.props;
-
+        
         if (jogador === null || notificacoes === null) {
             return <ActivityIndicator />;
         }

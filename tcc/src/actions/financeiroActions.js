@@ -101,21 +101,13 @@ export const contabilizarFinanceiro = () => {
                 });
                 const qtdJogadores = getState().jogadoresFinanceiro.length;
                 const valorRateio = gastoPartida / qtdJogadores;
-                console.log('gastoPartida ', gastoPartida)
-                console.log('qtdJogadores ', qtdJogadores)
-                console.log('valorRateio ', valorRateio)
 
                 // SUBTRAINDO DESPESAS.
-                console.log('POHA ', getState().grupoSelected.id);
                 let saldo_jogador = jogador.financeiro[getState().grupoSelected.id].valor;
-                console.log('saldo_jogador ', saldo_jogador)
                 if (!saldo_jogador || isNaN(saldo_jogador)) {
-                    console.log('entro')
                     saldo_jogador = 0;
                 }
-                console.log('parseFloat(saldo_jogador) ', parseFloat(saldo_jogador))
                 const saldo_final = (parseFloat(saldo_jogador) - valorRateio).toFixed(2);
-                console.log('saldo_final ', saldo_final)
 
                 const { id_user, id } = jogador;
                 firebase

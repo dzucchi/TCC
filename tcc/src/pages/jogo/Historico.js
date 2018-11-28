@@ -26,7 +26,9 @@ class Historico extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getPartidas();
+        if (this.props.grupoSelected !== null) {
+            this.props.getPartidas();
+        }
     }
 
     render() {

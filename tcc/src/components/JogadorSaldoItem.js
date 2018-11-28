@@ -17,6 +17,7 @@ class JogadorSaldoItem extends React.Component {
                 arrayFinanceiro.forEach((grupoKey) => {
                     if (grupoKey === id_grupo) {
                         valor = jogador.financeiro[grupoKey].valor;
+                        if (!valor) valor = 0;
                     }
                 });
             }
@@ -34,7 +35,9 @@ class JogadorSaldoItem extends React.Component {
                 </View>
 
                 <View style={styles.valores}>
-                    <Text style={[styles.valor, parseFloat(valor) < 0 ? styles.valor_menor : styles.valor_maior]}>{ valor === 0 ? '0.00' : valor }</Text>
+                    <Text style={[styles.valor, parseFloat(valor) < 0 ? styles.valor_menor : styles.valor_maior]}>
+                        { valor === 0 ? '0.00' : valor }
+                    </Text>
                     <View style={{marginTop: 5}}></View>
                 </View>
             </View>

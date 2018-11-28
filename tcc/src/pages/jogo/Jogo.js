@@ -128,6 +128,9 @@ class Jogo extends React.Component {
                 <JogoConfirmaPresenca
                     onPress={ async () => {
                         await setEstagio(3);
+                        this.props.jogadoresFromSeletedGrupo.forEach(element => {
+                            element.presenca_confirmada = false;
+                        });
                         grupoSelected.estagio = 3;
                         this.forceUpdate();
                     }} />
@@ -171,6 +174,7 @@ function mapStateToProps(state) {
     return {
         grupoSelected: state.grupoSelected,
         jogador: state.jogador,
+        jogadoresFromSeletedGrupo: state.jogadoresFromSeletedGrupo,
     }
 }
 

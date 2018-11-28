@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "tcc",
+    "name": "kevin",
     "description": "This project is really great.",
     "slug": "tcc",
     "privacy": "public",
@@ -8,7 +8,7 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/kevin_icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,7 +24,9 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.furbdiogo.kevin"
+      "package": "com.furbdiogo.kevin",
+      "versionCode": 1,
+      "icon": "./assets/kevin_icon.png"
     }
   }
 }
