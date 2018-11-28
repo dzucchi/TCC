@@ -17,6 +17,8 @@
     "react": "16.3.1",
     "react-moment": "^0.8.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-calendar-events": "^1.6.3",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-google-autocomplete": "^0.1.5",
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
     "react-native-maps": "^0.22.1",

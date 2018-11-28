@@ -42,6 +42,7 @@ class PerfilFutebol extends React.Component {
 
     listarGrupos(grupos, navigation) {
         const { setSelectedGrupo } = this.props;
+        
         return (
             <View>
                 <FlatList

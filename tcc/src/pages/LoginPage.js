@@ -1,8 +1,11 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, Alert } from "react-native";
+
+import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator } from "react-native";
+
 import firebase from "firebase";
 
 import { tryLogin, tryLoginWithFacebook } from "../actions";
+
 import { connect } from "react-redux";
 
 import FormRow from '../components/FormRow';

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, View, Image, Button, Text } from "react-native";
+import { StyleSheet, View, Image, Button, Text, Share, ScrollView } from "react-native";
 
 import { connect } from "react-redux";
 
@@ -56,15 +56,32 @@ class Jogo extends React.Component {
         }
     }
 
-    renderConfigButton() {
+    renderButton() {
         const { navigation } = this.props;
         return (
-            <View style={{paddingTop: 10}}>
-                <Button
-                    title='Configurações'
-                    onPress={() => navigation.navigate('GrupoFutebolDetail')} />
+            <View>
+                <View style={{paddingTop: 10}}>
+                    <Button
+                        title='Configurações'
+                        onPress={() => navigation.navigate('GrupoFutebolDetail')} />
+                </View>
+                <View style={{paddingTop: 10}}>
+                    <Button
+                        title='Compartilhar'
+                        onPress={() => this.onShare()} />
+                </View>
             </View>
         );
+    }
+
+    onShare() {
+        const { nome, dia_da_semana, hora_inicio, hora_fim, endereco } = this.props.grupoSelected;
+        Share.share({
+            title: `${nome}`,
+            message: `Participe do nosso jogo que ocorre ${dia_da_semana} às ${hora_inicio} até ${hora_fim} \nLocal: ${endereco}.`,
+        }, {
+            dialogTitle: `Convidar para o grupo ${nome}.`
+        });
     }
 
     render() {
@@ -138,7 +155,7 @@ class Jogo extends React.Component {
         }
 
         return (
-            <View>
+            <ScrollView>
                 <View style={styles.card}>
                     <Image
                         source={require('../../../resources/soccer-ball-variant.png')}
@@ -148,9 +165,9 @@ class Jogo extends React.Component {
                 </View>
                 <View style={{padding: 10}}>
                     { this.renderAgendarJogoButton() }
-                    { this.renderConfigButton() }
+                    { this.renderButton() }
                 </View>
-            </View>
+            </ScrollView>
             
         );
     }
