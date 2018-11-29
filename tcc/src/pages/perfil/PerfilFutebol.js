@@ -11,7 +11,9 @@ import {
     watchGrupos,
     watchNotificacoes,
     setField,
-    setSelectedGrupo
+    setSelectedGrupo,
+    userLogout,
+    outJogador,
 } from "../../actions";
 
 import AddGrupoItem from "../../components/AddGrupoItem";
@@ -84,7 +86,11 @@ class PerfilFutebol extends React.Component {
                     <Button
                         title='Sair'
                         color= 'red'
-                        onPress={() => this.props.navigation.replace('Login')} />
+                        onPress={() => {
+                            this.props.userLogout();
+                            this.props.outJogador();
+                            this.props.navigation.replace('Login');
+                        }} />
                 </View>
             </View>
         );
@@ -190,6 +196,9 @@ const mapDispatchToProps = {
     watchNotificacoes,
     setField,
     setSelectedGrupo,
+    userLogout,
+    outJogador,
+
 }
 
 const mapStateToProps = state => {

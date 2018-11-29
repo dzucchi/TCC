@@ -19,6 +19,11 @@ export const setFieldSegundoNivel = (field, field2, value) => {
     }
 }
 
+export const OUT_JOGADOR = 'OUT_JOGADOR';
+export const outJogador = () => ({
+    type: OUT_JOGADOR,
+});
+
 export const SET_JOGADOR = 'SET_JOGADOR';
 export const setJogador = jogador => ({
     type: SET_JOGADOR,

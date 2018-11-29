@@ -103,7 +103,12 @@ export const contabilizarFinanceiro = () => {
                 const valorRateio = gastoPartida / qtdJogadores;
 
                 // SUBTRAINDO DESPESAS.
-                let saldo_jogador = jogador.financeiro[getState().grupoSelected.id].valor;
+                idGrupoSelected = getState().grupoSelected.id;
+
+                let saldo_jogador = 0;
+                if (jogador.financeiro) {
+                    saldo_jogador = jogador.financeiro[idGrupoSelected].valor;    
+                }
                 if (!saldo_jogador || isNaN(saldo_jogador)) {
                     saldo_jogador = 0;
                 }

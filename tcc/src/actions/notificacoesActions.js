@@ -49,13 +49,12 @@ export const setJogadorAoGrupo = (id_jogador, uid_jogador, id_grupo) => {
     return (dispatch, getState) => {
         firebase
             .database()
-            .ref(`/grupos/${id_grupo}/jogadores`)
-            .update({[id_jogador]: true});
-
+            .ref(`/jogadores/${id_jogador}/${uid_jogador}/grupos`)
+            .update({[id_grupo]: true});
         firebase
             .database()
-            .ref(`/jogadores/${id_jogador}/${uid_jogador}/grupos`)
-            .update({[id_grupo]: true});        
+            .ref(`/grupos/${id_grupo}/jogadores`)
+            .update({[id_jogador]: true});
     }
 }
 

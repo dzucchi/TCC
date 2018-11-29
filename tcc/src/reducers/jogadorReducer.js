@@ -1,4 +1,4 @@
-import { SET_FIELD, SET_FIELD_SEGUNDO_NIVEL, SET_JOGADOR } from "../actions";
+import { SET_FIELD, SET_FIELD_SEGUNDO_NIVEL, SET_JOGADOR, OUT_JOGADOR } from "../actions";
 
 export default function(state = null, action) {
     switch (action.type) {
@@ -12,6 +12,8 @@ export default function(state = null, action) {
             return newState2;
         case SET_JOGADOR:
             return action.jogador;
+        case OUT_JOGADOR:
+            return null;
         default:
             return state;
     }
