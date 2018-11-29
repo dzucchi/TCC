@@ -6,7 +6,13 @@ import { connect } from "react-redux";
 
 import { AgeFromDateString } from "age-calculator";
 
-import { watchJogador, watchGrupos, watchNotificacoes, setField, setSelectedGrupo } from "../../actions";
+import { 
+    watchJogador,
+    watchGrupos,
+    watchNotificacoes,
+    setField,
+    setSelectedGrupo
+} from "../../actions";
 
 import AddGrupoItem from "../../components/AddGrupoItem";
 
@@ -72,7 +78,7 @@ class PerfilFutebol extends React.Component {
                 <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
                     <Button 
                         title="Editar" 
-                        onPress={() => navigation.navigate('PerfilFutebolForm')} />
+                        onPress={() => this.props.navigation.navigate('PerfilFutebolForm')} />
                 </View>
                 <View style={styles.button}>
                     <Button

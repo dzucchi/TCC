@@ -49,19 +49,18 @@ export const setJogadorAoGrupo = (id_jogador, uid_jogador, id_grupo) => {
     return (dispatch, getState) => {
         firebase
             .database()
-            .ref(`/jogadores/${id_jogador}/${uid_jogador}/grupos`)
-            .update({[id_grupo]: true});
+            .ref(`/grupos/${id_grupo}/jogadores`)
+            .update({[id_jogador]: true});
 
         firebase
             .database()
-            .ref(`/grupos/${id_grupo}/jogadores`)
-            .update({[id_jogador]: true});
+            .ref(`/jogadores/${id_jogador}/${uid_jogador}/grupos`)
+            .update({[id_grupo]: true});        
     }
 }
 
 export const desativarNotificacao = (id_jogador, id_notificacao) => {
     return (dispatch, getState) => {
-        console.log('DESATIVAR ', id_jogador, '  -  ', id_notificacao)
         const db = firebase.database();
         const ref = db.ref(`/notificacoes/${id_jogador}/${id_notificacao}/ativa`);
         ref.set(false);
