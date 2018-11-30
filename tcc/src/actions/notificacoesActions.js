@@ -8,7 +8,6 @@ const setNotificacoes = notificacoes => ({
 
 export const watchNotificacoes = () => {
     return (dispatch, getState) => {
-
         firebase
             .database()
             .ref(`notificacoes/${getState().jogador.id_user}`)

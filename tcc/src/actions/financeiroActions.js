@@ -89,6 +89,7 @@ export const contabilizarFinanceiro = () => {
     return (dispatch, getState) => {
 
         const jogadores = getState().jogadoresFinanceiro;
+        console.log(jogadores)
         jogadores.forEach((jogador) => {
             if (!jogador.valor_pago) {
 

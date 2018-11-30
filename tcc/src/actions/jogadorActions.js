@@ -40,7 +40,7 @@ export const alterarJogador = jogador => {
     } 
 }
 
-export const watchJogador = () => {  
+export const watchJogador = () => {
     const { currentUser } = firebase.auth();
     return (dispatch, getState) => {
         return new Promise((resolve, reject) => {

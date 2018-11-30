@@ -13,7 +13,8 @@ import PlayerBeingItem from "../../components/PlayerBeingItem";
 import {
     getJogadoresFinanceiro, 
     setFieldJogadorFinanceiro,
-    setJogadorFinanceiro
+    setJogadorFinanceiro,
+    getPartidas
 } from "../../actions";
 
 class Financeiro extends React.Component {
@@ -28,6 +29,7 @@ class Financeiro extends React.Component {
     componentDidMount() {
         if (this.props.grupoSelected !== null) {
             this.props.getJogadoresFinanceiro();
+            this.props.getPartidas();
         }
     }
 
@@ -50,7 +52,7 @@ class Financeiro extends React.Component {
             );
         }
 
-        if (jogadoresFromSeletedGrupo === null || jogadoresFinanceiro === null) {
+        if (jogadoresFromSeletedGrupo === null || jogadoresFinanceiro === null || partidas === null) {
             return <ActivityIndicator />;
         }
 
@@ -70,6 +72,7 @@ class Financeiro extends React.Component {
                     <NavigationEvents
                         onWillFocus={async () => {
                             await this.props.getJogadoresFinanceiro();
+                            await this.props.getPartidas();
                         }}
                     />
                     <View style={styles.titulo}>
@@ -155,6 +158,7 @@ const mapDispatchToProps = {
     getJogadoresFinanceiro,
     setFieldJogadorFinanceiro,
     setJogadorFinanceiro,
+    getPartidas,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Financeiro);

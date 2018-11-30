@@ -1,5 +1,7 @@
 import firebase from "firebase";
 
+import { setSelectedGrupo } from "./grupoSelectedActions";
+
 export const SET_GRUPOS = 'SET_GRUPOS';
 const setGrupos = grupos => ({
     type: SET_GRUPOS,
@@ -24,6 +26,13 @@ export const watchGrupos = () => {
                                 }
                             });
                         });
+                        if (getState().grupoSelected) {
+                            grupoKeysBaseON.forEach(function(keyON) {
+                                if (getState().grupoSelected.id === keyON) {
+                                    dispatch(setSelectedGrupo(snapshot.val()[keyON]));
+                                }
+                            });
+                        }
                     }
                     dispatch(setGrupos(grupos));
                 }

@@ -8,6 +8,7 @@ import {
     ActivityIndicator, 
     Text, 
     Alert,
+    ScrollView,
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -94,7 +95,7 @@ class TimeLista extends React.Component {
         }
 
         return (
-            <View>
+            <ScrollView>
                 <View style={styles.titulo}>
                     <Text style={{fontSize: 30, color: 'gray'}}>
                         Times
@@ -115,7 +116,7 @@ class TimeLista extends React.Component {
                 { this.renderRegistrarResultadoButton() }
                 { this.renderEncerrarJogoButton() }
                 
-            </View>
+            </ScrollView>
         );
     }
 }

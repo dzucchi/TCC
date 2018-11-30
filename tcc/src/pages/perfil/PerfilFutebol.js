@@ -10,6 +10,7 @@ import {
     watchJogador,
     watchGrupos,
     watchNotificacoes,
+    watchJogadoresFromSelectedGrupo,
     setField,
     setSelectedGrupo,
     userLogout,
@@ -49,7 +50,7 @@ class PerfilFutebol extends React.Component {
     }
 
     listarGrupos(grupos, navigation) {
-        const { setSelectedGrupo } = this.props;
+        const { setSelectedGrupo, watchJogadoresFromSelectedGrupo } = this.props;
         
         return (
             <View>
@@ -61,8 +62,9 @@ class PerfilFutebol extends React.Component {
                                 onPress={() => navigation.navigate('GrupoForm')} />
                             : <GrupoItem
                                 grupo={item}
-                                onPress={() => {
-                                    setSelectedGrupo(item);
+                                onPress={async () => {
+                                    await setSelectedGrupo(item);
+                                    await watchJogadoresFromSelectedGrupo(item);
                                     navigation.navigate('Jogo');
                                 }} />
                     )}
@@ -194,6 +196,7 @@ const mapDispatchToProps = {
     watchJogador,
     watchGrupos,
     watchNotificacoes,
+    watchJogadoresFromSelectedGrupo,
     setField,
     setSelectedGrupo,
     userLogout,
