@@ -88,7 +88,7 @@ class GrupoFutebolDetail extends React.Component {
                     <Line label="Dia da semana" content={grupoSearched.dia_da_semana}/>
                     <Line label="Hora início" content={grupoSearched.hora_inicio}/>
                     <Line label="Hora fim" content={grupoSearched.hora_fim}/>
-                    <Line label="Privacidade" content={grupoSearched.privado ? 'Aberto' : 'Fechado'}/>
+                    <Line label="Privacidade" content={grupoSearched.privado ? 'Fechado' : 'Aberto'}/>
 
                     { this.renderButton() }
 

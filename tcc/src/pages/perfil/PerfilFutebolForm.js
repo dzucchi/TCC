@@ -116,7 +116,7 @@ class PerfilFutebolForm extends React.Component {
                     />
                 </FormRow>
                 <FormRow>
-                <Text style={styles.labelfixed}>Direção chute</Text>
+                <Text style={styles.labelfixed}>Pé favorito</Text>
                     <Picker
                         selectedValue={jogadorForm.futebol.direcao_chute}
                         onValueChange={itemValue => setFieldSegundoNivel('futebol', 'direcao_chute', itemValue)}>

@@ -43,7 +43,7 @@ const PerfilTabNav = createMaterialTopTabNavigator({
 	PerfilFutebol: {
 		screen: PerfilFutebol,
 		navigationOptions: {
-			tabBarLabel: 'Perfil',
+			tabBarLabel: 'Futebol',
 		}
 	},
 	PerfilBasquete: {
